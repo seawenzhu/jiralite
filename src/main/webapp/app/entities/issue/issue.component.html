@@ -16,12 +16,12 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createdBy"><span jhiTranslate="jiraliteApp.issue.createdBy">Created By</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createdDate"><span jhiTranslate="jiraliteApp.issue.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="lastModifiedBy"><span jhiTranslate="jiraliteApp.issue.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="lastModifiedDate"><span jhiTranslate="jiraliteApp.issue.lastModifiedDate">Last Modified Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="version"><span jhiTranslate="jiraliteApp.issue.version">Version</span> <span class="fa fa-sort"></span></th>
+            <!--<th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="createdBy"><span jhiTranslate="jiraliteApp.issue.createdBy">Created By</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="createdDate"><span jhiTranslate="jiraliteApp.issue.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="lastModifiedBy"><span jhiTranslate="jiraliteApp.issue.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="lastModifiedDate"><span jhiTranslate="jiraliteApp.issue.lastModifiedDate">Last Modified Date</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="version"><span jhiTranslate="jiraliteApp.issue.version">Version</span> <span class="fa fa-sort"></span></th>-->
             <th jhiSortBy="issueNo"><span jhiTranslate="jiraliteApp.issue.issueNo">Issue No</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="issueSubject"><span jhiTranslate="jiraliteApp.issue.issueSubject">Issue Subject</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="issueType"><span jhiTranslate="jiraliteApp.issue.issueType">Issue Type</span> <span class="fa fa-sort"></span></th>
@@ -36,12 +36,12 @@
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let issue of issues ;trackBy: trackId">
-                <td><a [routerLink]="['../issue', issue.id ]">{{issue.id}}</a></td>
-                <td>{{issue.createdBy}}</td>
-                <td>{{issue.createdDate | date:'medium'}}</td>
-                <td>{{issue.lastModifiedBy}}</td>
-                <td>{{issue.lastModifiedDate | date:'medium'}}</td>
-                <td>{{issue.version}}</td>
+                <!--<td><a [routerLink]="['../issue', issue.id ]">{{issue.id}}</a></td>-->
+                <!--<td>{{issue.createdBy}}</td>-->
+                <!--<td>{{issue.createdDate | date:'medium'}}</td>-->
+                <!--<td>{{issue.lastModifiedBy}}</td>-->
+                <!--<td>{{issue.lastModifiedDate | date:'medium'}}</td>-->
+                <!--<td>{{issue.version}}</td>-->
                 <td>{{issue.issueNo}}</td>
                 <td>{{issue.issueSubject}}</td>
                 <td>{{issue.issueType}}</td>

@@ -16,12 +16,12 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createdBy"><span jhiTranslate="jiraliteApp.comments.createdBy">Created By</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createdDate"><span jhiTranslate="jiraliteApp.comments.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="lastModifiedBy"><span jhiTranslate="jiraliteApp.comments.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="lastModifiedDate"><span jhiTranslate="jiraliteApp.comments.lastModifiedDate">Last Modified Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="version"><span jhiTranslate="jiraliteApp.comments.version">Version</span> <span class="fa fa-sort"></span></th>
+            <!--<th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="createdBy"><span jhiTranslate="jiraliteApp.comments.createdBy">Created By</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="createdDate"><span jhiTranslate="jiraliteApp.comments.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="lastModifiedBy"><span jhiTranslate="jiraliteApp.comments.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="lastModifiedDate"><span jhiTranslate="jiraliteApp.comments.lastModifiedDate">Last Modified Date</span> <span class="fa fa-sort"></span></th>-->
+            <!--<th jhiSortBy="version"><span jhiTranslate="jiraliteApp.comments.version">Version</span> <span class="fa fa-sort"></span></th>-->
             <th jhiSortBy="remark"><span jhiTranslate="jiraliteApp.comments.remark">Remark</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="issueId"><span jhiTranslate="jiraliteApp.comments.issue">Issue</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -29,12 +29,12 @@
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let comments of comments ;trackBy: trackId">
-                <td><a [routerLink]="['../comments', comments.id ]">{{comments.id}}</a></td>
-                <td>{{comments.createdBy}}</td>
-                <td>{{comments.createdDate | date:'medium'}}</td>
-                <td>{{comments.lastModifiedBy}}</td>
-                <td>{{comments.lastModifiedDate | date:'medium'}}</td>
-                <td>{{comments.version}}</td>
+                <!--<td><a [routerLink]="['../comments', comments.id ]">{{comments.id}}</a></td>-->
+                <!--<td>{{comments.createdBy}}</td>-->
+                <!--<td>{{comments.createdDate | date:'medium'}}</td>-->
+                <!--<td>{{comments.lastModifiedBy}}</td>-->
+                <!--<td>{{comments.lastModifiedDate | date:'medium'}}</td>-->
+                <!--<td>{{comments.version}}</td>-->
                 <td>{{comments.remark}}</td>
                 <td>
                     <div *ngIf="comments.issueId">
