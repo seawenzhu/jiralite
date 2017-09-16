@@ -6,7 +6,7 @@
                 (click)="clear()">&times;</button>
     </div>
     <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
+        <jl-alert-error></jl-alert-error>
         <!--<div class="form-group" [hidden]="!issue.id">
             <label for="id" jhiTranslate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
@@ -144,11 +144,8 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jiraliteApp.issue.remark" for="field_remark">Remark</label>
-            <!--<textarea class="form-control" name="remark" id="field_remark"-->
-                <!--[(ngModel)]="issue.remark" required ></textarea>-->
-            <textarea [froalaEditor] required name="remark" id="field_remark"
-                      (froalaModelChange)="onChange($event)"
-                      [(froalaModel)]="issue.remark"></textarea>
+            <textarea class="form-control" name="remark" id="field_remark"
+                [(ngModel)]="issue.remark" required ></textarea>
             <div [hidden]="!(editForm.controls.remark?.dirty && editForm.controls.remark?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.remark?.errors?.required" jhiTranslate="entity.validation.required">

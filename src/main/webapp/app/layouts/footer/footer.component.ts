@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'jhi-footer',
+    selector: 'jl-footer',
     templateUrl: './footer.component.html'
 })
 export class FooterComponent {}

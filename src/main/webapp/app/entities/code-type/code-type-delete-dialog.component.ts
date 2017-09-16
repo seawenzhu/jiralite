@@ -9,7 +9,7 @@ import { CodeTypePopupService } from './code-type-popup.service';
 import { CodeTypeService } from './code-type.service';
 
 @Component({
-    selector: 'jhi-code-type-delete-dialog',
+    selector: 'jl-code-type-delete-dialog',
     templateUrl: './code-type-delete-dialog.component.html'
 })
 export class CodeTypeDeleteDialogComponent {
@@ -39,7 +39,7 @@ export class CodeTypeDeleteDialogComponent {
 }
 
 @Component({
-    selector: 'jhi-code-type-delete-popup',
+    selector: 'jl-code-type-delete-popup',
     template: ''
 })
 export class CodeTypeDeletePopupComponent implements OnInit, OnDestroy {

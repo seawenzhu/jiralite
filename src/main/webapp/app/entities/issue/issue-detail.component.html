@@ -2,7 +2,7 @@
 <div *ngIf="issue">
     <h2><span jhiTranslate="jiraliteApp.issue.detail.title">Issue</span> {{issue.id}}</h2>
     <hr>
-    <jhi-alert-error></jhi-alert-error>
+    <jl-alert-error></jl-alert-error>
     <dl class="row-md jh-entity-details">
         <dt><span jhiTranslate="jiraliteApp.issue.createdBy">Created By</span></dt>
         <dd>
@@ -54,7 +54,7 @@
         </dd>
         <dt><span jhiTranslate="jiraliteApp.issue.remark">Remark</span></dt>
         <dd>
-            <span [froalaView]="issue.remark"></span>
+            <span>{{issue.remark}}</span>
         </dd>
         <dt><span jhiTranslate="jiraliteApp.issue.project">Project</span></dt>
         <dd>

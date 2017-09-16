@@ -2,6 +2,7 @@ package com.seawen.jiralite.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -15,6 +16,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "comments")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(indexName = "comments")
 public class Comments extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

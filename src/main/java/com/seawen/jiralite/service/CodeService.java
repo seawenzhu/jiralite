@@ -2,6 +2,7 @@ package com.seawen.jiralite.service;
 
 import com.seawen.jiralite.domain.Code;
 import com.seawen.jiralite.repository.CodeRepository;
+import com.seawen.jiralite.repository.search.CodeSearchRepository;
 import com.seawen.jiralite.service.dto.CodeDTO;
 import com.seawen.jiralite.service.mapper.CodeMapper;
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Code.
@@ -25,9 +28,12 @@ public class CodeService {
 
     private final CodeMapper codeMapper;
 
-    public CodeService(CodeRepository codeRepository, CodeMapper codeMapper) {
+    private final CodeSearchRepository codeSearchRepository;
+
+    public CodeService(CodeRepository codeRepository, CodeMapper codeMapper, CodeSearchRepository codeSearchRepository) {
         this.codeRepository = codeRepository;
         this.codeMapper = codeMapper;
+        this.codeSearchRepository = codeSearchRepository;
     }
 
     /**
@@ -40,7 +46,9 @@ public class CodeService {
         log.debug("Request to save Code : {}", codeDTO);
         Code code = codeMapper.toEntity(codeDTO);
         code = codeRepository.save(code);
-        return codeMapper.toDto(code);
+        CodeDTO result = codeMapper.toDto(code);
+        codeSearchRepository.save(code);
+        return result;
     }
 
     /**
@@ -77,5 +85,20 @@ public class CodeService {
     public void delete(Long id) {
         log.debug("Request to delete Code : {}", id);
         codeRepository.delete(id);
+        codeSearchRepository.delete(id);
+    }
+
+    /**
+     * Search for the code corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<CodeDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Codes for query {}", query);
+        Page<Code> result = codeSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(codeMapper::toDto);
     }
 }

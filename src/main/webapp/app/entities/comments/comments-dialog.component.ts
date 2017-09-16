@@ -13,7 +13,7 @@ import { Issue, IssueService } from '../issue';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
-    selector: 'jhi-comments-dialog',
+    selector: 'jl-comments-dialog',
     templateUrl: './comments-dialog.component.html'
 })
 export class CommentsDialogComponent implements OnInit {
@@ -91,7 +91,7 @@ export class CommentsDialogComponent implements OnInit {
 }
 
 @Component({
-    selector: 'jhi-comments-popup',
+    selector: 'jl-comments-popup',
     template: ''
 })
 export class CommentsPopupComponent implements OnInit, OnDestroy {

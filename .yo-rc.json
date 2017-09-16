@@ -16,7 +16,7 @@
     "databaseType": "sql",
     "devDatabaseType": "mysql",
     "prodDatabaseType": "mysql",
-    "searchEngine": false,
+    "searchEngine": "elasticsearch",
     "messageBroker": false,
     "serviceDiscoveryType": false,
     "buildTool": "maven",
@@ -28,7 +28,7 @@
     "clientPackageManager": "yarn",
     "applicationType": "monolith",
     "testFrameworks": [],
-    "jhiPrefix": "jhi",
+    "jhiPrefix": "jl",
     "enableTranslation": true,
     "nativeLanguage": "zh-cn",
     "languages": [

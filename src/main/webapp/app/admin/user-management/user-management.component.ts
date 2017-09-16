@@ -7,7 +7,7 @@ import { ITEMS_PER_PAGE, Principal, User, UserService, ResponseWrapper } from '.
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
-    selector: 'jhi-user-mgmt',
+    selector: 'jl-user-mgmt',
     templateUrl: './user-management.component.html'
 })
 export class UserMgmtComponent implements OnInit, OnDestroy {

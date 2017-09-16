@@ -13,6 +13,7 @@
         "indicator": {
             "diskSpace": "硬盘空间",
             "mail": "电子邮件",
+            "elasticsearch": "Elasticsearch",
             "db": "数据库"
         },
         "table": {

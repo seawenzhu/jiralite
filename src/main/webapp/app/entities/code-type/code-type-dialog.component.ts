@@ -11,7 +11,7 @@ import { CodeTypePopupService } from './code-type-popup.service';
 import { CodeTypeService } from './code-type.service';
 
 @Component({
-    selector: 'jhi-code-type-dialog',
+    selector: 'jl-code-type-dialog',
     templateUrl: './code-type-dialog.component.html'
 })
 export class CodeTypeDialogComponent implements OnInit {
@@ -80,7 +80,7 @@ export class CodeTypeDialogComponent implements OnInit {
 }
 
 @Component({
-    selector: 'jhi-code-type-popup',
+    selector: 'jl-code-type-popup',
     template: ''
 })
 export class CodeTypePopupComponent implements OnInit, OnDestroy {

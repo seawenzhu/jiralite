@@ -5,6 +5,7 @@ import com.seawen.jiralite.JiraliteApp;
 import com.seawen.jiralite.domain.CodeType;
 import com.seawen.jiralite.repository.CodeTypeRepository;
 import com.seawen.jiralite.service.CodeTypeService;
+import com.seawen.jiralite.repository.search.CodeTypeSearchRepository;
 import com.seawen.jiralite.service.dto.CodeTypeDTO;
 import com.seawen.jiralite.service.mapper.CodeTypeMapper;
 import com.seawen.jiralite.web.rest.errors.ExceptionTranslator;
@@ -80,6 +81,9 @@ public class CodeTypeResourceIntTest {
     private CodeTypeService codeTypeService;
 
     @Autowired
+    private CodeTypeSearchRepository codeTypeSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -127,6 +131,7 @@ public class CodeTypeResourceIntTest {
 
     @Before
     public void initTest() {
+        codeTypeSearchRepository.deleteAll();
         codeType = createEntity(em);
     }
 
@@ -155,6 +160,10 @@ public class CodeTypeResourceIntTest {
         assertThat(testCodeType.getParentTypeCode()).isEqualTo(DEFAULT_PARENT_TYPE_CODE);
         assertThat(testCodeType.getTypeName()).isEqualTo(DEFAULT_TYPE_NAME);
         assertThat(testCodeType.getRemark()).isEqualTo(DEFAULT_REMARK);
+
+        // Validate the CodeType in Elasticsearch
+        CodeType codeTypeEs = codeTypeSearchRepository.findOne(testCodeType.getId());
+        assertThat(codeTypeEs).isEqualToComparingFieldByField(testCodeType);
     }
 
     @Test
@@ -291,6 +300,7 @@ public class CodeTypeResourceIntTest {
     public void updateCodeType() throws Exception {
         // Initialize the database
         codeTypeRepository.saveAndFlush(codeType);
+        codeTypeSearchRepository.save(codeType);
         int databaseSizeBeforeUpdate = codeTypeRepository.findAll().size();
 
         // Update the codeType
@@ -325,6 +335,10 @@ public class CodeTypeResourceIntTest {
         assertThat(testCodeType.getParentTypeCode()).isEqualTo(UPDATED_PARENT_TYPE_CODE);
         assertThat(testCodeType.getTypeName()).isEqualTo(UPDATED_TYPE_NAME);
         assertThat(testCodeType.getRemark()).isEqualTo(UPDATED_REMARK);
+
+        // Validate the CodeType in Elasticsearch
+        CodeType codeTypeEs = codeTypeSearchRepository.findOne(testCodeType.getId());
+        assertThat(codeTypeEs).isEqualToComparingFieldByField(testCodeType);
     }
 
     @Test
@@ -351,6 +365,7 @@ public class CodeTypeResourceIntTest {
     public void deleteCodeType() throws Exception {
         // Initialize the database
         codeTypeRepository.saveAndFlush(codeType);
+        codeTypeSearchRepository.save(codeType);
         int databaseSizeBeforeDelete = codeTypeRepository.findAll().size();
 
         // Get the codeType
@@ -358,9 +373,36 @@ public class CodeTypeResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean codeTypeExistsInEs = codeTypeSearchRepository.exists(codeType.getId());
+        assertThat(codeTypeExistsInEs).isFalse();
+
         // Validate the database is empty
         List<CodeType> codeTypeList = codeTypeRepository.findAll();
         assertThat(codeTypeList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchCodeType() throws Exception {
+        // Initialize the database
+        codeTypeRepository.saveAndFlush(codeType);
+        codeTypeSearchRepository.save(codeType);
+
+        // Search the codeType
+        restCodeTypeMockMvc.perform(get("/api/_search/code-types?query=id:" + codeType.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(codeType.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
+            .andExpect(jsonPath("$.[*].typeCode").value(hasItem(DEFAULT_TYPE_CODE.toString())))
+            .andExpect(jsonPath("$.[*].parentTypeCode").value(hasItem(DEFAULT_PARENT_TYPE_CODE.toString())))
+            .andExpect(jsonPath("$.[*].typeName").value(hasItem(DEFAULT_TYPE_NAME.toString())))
+            .andExpect(jsonPath("$.[*].remark").value(hasItem(DEFAULT_REMARK.toString())));
     }
 
     @Test

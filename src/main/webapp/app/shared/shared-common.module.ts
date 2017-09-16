@@ -6,8 +6,8 @@ import {
     JiraliteSharedLibsModule,
     JhiLanguageHelper,
     FindLanguageFromKeyPipe,
-    JhiAlertComponent,
-    JhiAlertErrorComponent
+    JlAlertComponent,
+    JlAlertErrorComponent
 } from './';
 
 @NgModule({
@@ -16,8 +16,8 @@ import {
     ],
     declarations: [
         FindLanguageFromKeyPipe,
-        JhiAlertComponent,
-        JhiAlertErrorComponent
+        JlAlertComponent,
+        JlAlertErrorComponent
     ],
     providers: [
         JhiLanguageHelper,
@@ -31,8 +31,8 @@ import {
     exports: [
         JiraliteSharedLibsModule,
         FindLanguageFromKeyPipe,
-        JhiAlertComponent,
-        JhiAlertErrorComponent
+        JlAlertComponent,
+        JlAlertErrorComponent
     ]
 })
 export class JiraliteSharedCommonModule {}

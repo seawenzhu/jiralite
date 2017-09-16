@@ -16,7 +16,7 @@ import { PaginationConfig } from './blocks/config/uib-pagination.config';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
 import {
-    JhiMainComponent,
+    JlMainComponent,
     LayoutRoutingModule,
     NavbarComponent,
     FooterComponent,
@@ -39,7 +39,7 @@ import {
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
-        JhiMainComponent,
+        JlMainComponent,
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
@@ -52,6 +52,6 @@ import {
         PaginationConfig,
         UserRouteAccessService
     ],
-    bootstrap: [ JhiMainComponent ]
+    bootstrap: [ JlMainComponent ]
 })
 export class JiraliteAppModule {}

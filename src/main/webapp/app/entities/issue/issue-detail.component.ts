@@ -7,7 +7,7 @@ import { Issue } from './issue.model';
 import { IssueService } from './issue.service';
 
 @Component({
-    selector: 'jhi-issue-detail',
+    selector: 'jl-issue-detail',
     templateUrl: './issue-detail.component.html'
 })
 export class IssueDetailComponent implements OnInit, OnDestroy {

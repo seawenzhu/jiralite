@@ -7,7 +7,7 @@ import { Comments } from './comments.model';
 import { CommentsService } from './comments.service';
 
 @Component({
-    selector: 'jhi-comments-detail',
+    selector: 'jl-comments-detail',
     templateUrl: './comments-detail.component.html'
 })
 export class CommentsDetailComponent implements OnInit, OnDestroy {

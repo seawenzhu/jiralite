@@ -2,6 +2,7 @@ package com.seawen.jiralite.service;
 
 import com.seawen.jiralite.domain.ProjectMember;
 import com.seawen.jiralite.repository.ProjectMemberRepository;
+import com.seawen.jiralite.repository.search.ProjectMemberSearchRepository;
 import com.seawen.jiralite.service.dto.ProjectMemberDTO;
 import com.seawen.jiralite.service.mapper.ProjectMemberMapper;
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing ProjectMember.
@@ -25,9 +28,12 @@ public class ProjectMemberService {
 
     private final ProjectMemberMapper projectMemberMapper;
 
-    public ProjectMemberService(ProjectMemberRepository projectMemberRepository, ProjectMemberMapper projectMemberMapper) {
+    private final ProjectMemberSearchRepository projectMemberSearchRepository;
+
+    public ProjectMemberService(ProjectMemberRepository projectMemberRepository, ProjectMemberMapper projectMemberMapper, ProjectMemberSearchRepository projectMemberSearchRepository) {
         this.projectMemberRepository = projectMemberRepository;
         this.projectMemberMapper = projectMemberMapper;
+        this.projectMemberSearchRepository = projectMemberSearchRepository;
     }
 
     /**
@@ -40,7 +46,9 @@ public class ProjectMemberService {
         log.debug("Request to save ProjectMember : {}", projectMemberDTO);
         ProjectMember projectMember = projectMemberMapper.toEntity(projectMemberDTO);
         projectMember = projectMemberRepository.save(projectMember);
-        return projectMemberMapper.toDto(projectMember);
+        ProjectMemberDTO result = projectMemberMapper.toDto(projectMember);
+        projectMemberSearchRepository.save(projectMember);
+        return result;
     }
 
     /**
@@ -77,5 +85,20 @@ public class ProjectMemberService {
     public void delete(Long id) {
         log.debug("Request to delete ProjectMember : {}", id);
         projectMemberRepository.delete(id);
+        projectMemberSearchRepository.delete(id);
+    }
+
+    /**
+     * Search for the projectMember corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<ProjectMemberDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of ProjectMembers for query {}", query);
+        Page<ProjectMember> result = projectMemberSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(projectMemberMapper::toDto);
     }
 }

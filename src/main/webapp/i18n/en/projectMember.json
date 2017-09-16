@@ -4,7 +4,8 @@
             "home": {
                 "title": "Project Members",
                 "createLabel": "Create a new Project Member",
-                "createOrEditLabel": "Create or edit a Project Member"
+                "createOrEditLabel": "Create or edit a Project Member",
+                "search": "Search for Project Member"
             },
             "created": "A new Project Member is created with identifier {{ param }}",
             "updated": "A Project Member is updated with identifier {{ param }}",

@@ -7,7 +7,7 @@ import { ProjectMember } from './project-member.model';
 import { ProjectMemberService } from './project-member.service';
 
 @Component({
-    selector: 'jhi-project-member-detail',
+    selector: 'jl-project-member-detail',
     templateUrl: './project-member-detail.component.html'
 })
 export class ProjectMemberDetailComponent implements OnInit, OnDestroy {

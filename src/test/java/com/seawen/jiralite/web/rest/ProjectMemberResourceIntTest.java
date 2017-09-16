@@ -5,6 +5,7 @@ import com.seawen.jiralite.JiraliteApp;
 import com.seawen.jiralite.domain.ProjectMember;
 import com.seawen.jiralite.repository.ProjectMemberRepository;
 import com.seawen.jiralite.service.ProjectMemberService;
+import com.seawen.jiralite.repository.search.ProjectMemberSearchRepository;
 import com.seawen.jiralite.service.dto.ProjectMemberDTO;
 import com.seawen.jiralite.service.mapper.ProjectMemberMapper;
 import com.seawen.jiralite.web.rest.errors.ExceptionTranslator;
@@ -74,6 +75,9 @@ public class ProjectMemberResourceIntTest {
     private ProjectMemberService projectMemberService;
 
     @Autowired
+    private ProjectMemberSearchRepository projectMemberSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -119,6 +123,7 @@ public class ProjectMemberResourceIntTest {
 
     @Before
     public void initTest() {
+        projectMemberSearchRepository.deleteAll();
         projectMember = createEntity(em);
     }
 
@@ -145,6 +150,10 @@ public class ProjectMemberResourceIntTest {
         assertThat(testProjectMember.getVersion()).isEqualTo(DEFAULT_VERSION);
         assertThat(testProjectMember.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testProjectMember.getRemark()).isEqualTo(DEFAULT_REMARK);
+
+        // Validate the ProjectMember in Elasticsearch
+        ProjectMember projectMemberEs = projectMemberSearchRepository.findOne(testProjectMember.getId());
+        assertThat(projectMemberEs).isEqualToComparingFieldByField(testProjectMember);
     }
 
     @Test
@@ -239,6 +248,7 @@ public class ProjectMemberResourceIntTest {
     public void updateProjectMember() throws Exception {
         // Initialize the database
         projectMemberRepository.saveAndFlush(projectMember);
+        projectMemberSearchRepository.save(projectMember);
         int databaseSizeBeforeUpdate = projectMemberRepository.findAll().size();
 
         // Update the projectMember
@@ -269,6 +279,10 @@ public class ProjectMemberResourceIntTest {
         assertThat(testProjectMember.getVersion()).isEqualTo(UPDATED_VERSION);
         assertThat(testProjectMember.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testProjectMember.getRemark()).isEqualTo(UPDATED_REMARK);
+
+        // Validate the ProjectMember in Elasticsearch
+        ProjectMember projectMemberEs = projectMemberSearchRepository.findOne(testProjectMember.getId());
+        assertThat(projectMemberEs).isEqualToComparingFieldByField(testProjectMember);
     }
 
     @Test
@@ -295,6 +309,7 @@ public class ProjectMemberResourceIntTest {
     public void deleteProjectMember() throws Exception {
         // Initialize the database
         projectMemberRepository.saveAndFlush(projectMember);
+        projectMemberSearchRepository.save(projectMember);
         int databaseSizeBeforeDelete = projectMemberRepository.findAll().size();
 
         // Get the projectMember
@@ -302,9 +317,34 @@ public class ProjectMemberResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean projectMemberExistsInEs = projectMemberSearchRepository.exists(projectMember.getId());
+        assertThat(projectMemberExistsInEs).isFalse();
+
         // Validate the database is empty
         List<ProjectMember> projectMemberList = projectMemberRepository.findAll();
         assertThat(projectMemberList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchProjectMember() throws Exception {
+        // Initialize the database
+        projectMemberRepository.saveAndFlush(projectMember);
+        projectMemberSearchRepository.save(projectMember);
+
+        // Search the projectMember
+        restProjectMemberMockMvc.perform(get("/api/_search/project-members?query=id:" + projectMember.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(projectMember.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].remark").value(hasItem(DEFAULT_REMARK.toString())));
     }
 
     @Test

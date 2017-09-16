@@ -9,7 +9,7 @@ import { CommentsPopupService } from './comments-popup.service';
 import { CommentsService } from './comments.service';
 
 @Component({
-    selector: 'jhi-comments-delete-dialog',
+    selector: 'jl-comments-delete-dialog',
     templateUrl: './comments-delete-dialog.component.html'
 })
 export class CommentsDeleteDialogComponent {
@@ -39,7 +39,7 @@ export class CommentsDeleteDialogComponent {
 }
 
 @Component({
-    selector: 'jhi-comments-delete-popup',
+    selector: 'jl-comments-delete-popup',
     template: ''
 })
 export class CommentsDeletePopupComponent implements OnInit, OnDestroy {

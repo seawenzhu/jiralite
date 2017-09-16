@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular
 import { PasswordResetInitService } from './password-reset-init.service';
 
 @Component({
-    selector: 'jhi-password-reset-init',
+    selector: 'jl-password-reset-init',
     templateUrl: './password-reset-init.component.html'
 })
 export class PasswordResetInitComponent implements OnInit, AfterViewInit {

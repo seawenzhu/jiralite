@@ -4,7 +4,8 @@
             "home": {
                 "title": "Issues",
                 "createLabel": "Create a new Issue",
-                "createOrEditLabel": "Create or edit a Issue"
+                "createOrEditLabel": "Create or edit a Issue",
+                "search": "Search for Issue"
             },
             "created": "A new Issue is created with identifier {{ param }}",
             "updated": "A Issue is updated with identifier {{ param }}",

@@ -13,7 +13,7 @@ import { CodeType, CodeTypeService } from '../code-type';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
-    selector: 'jhi-code-dialog',
+    selector: 'jl-code-dialog',
     templateUrl: './code-dialog.component.html'
 })
 export class CodeDialogComponent implements OnInit {
@@ -91,7 +91,7 @@ export class CodeDialogComponent implements OnInit {
 }
 
 @Component({
-    selector: 'jhi-code-popup',
+    selector: 'jl-code-popup',
     template: ''
 })
 export class CodePopupComponent implements OnInit, OnDestroy {

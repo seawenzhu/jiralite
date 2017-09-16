@@ -7,7 +7,7 @@ import { CodeType } from './code-type.model';
 import { CodeTypeService } from './code-type.service';
 
 @Component({
-    selector: 'jhi-code-type-detail',
+    selector: 'jl-code-type-detail',
     templateUrl: './code-type-detail.component.html'
 })
 export class CodeTypeDetailComponent implements OnInit, OnDestroy {

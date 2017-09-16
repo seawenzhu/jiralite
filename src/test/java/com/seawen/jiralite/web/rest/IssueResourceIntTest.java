@@ -5,6 +5,7 @@ import com.seawen.jiralite.JiraliteApp;
 import com.seawen.jiralite.domain.Issue;
 import com.seawen.jiralite.repository.IssueRepository;
 import com.seawen.jiralite.service.IssueService;
+import com.seawen.jiralite.repository.search.IssueSearchRepository;
 import com.seawen.jiralite.service.dto.IssueDTO;
 import com.seawen.jiralite.service.mapper.IssueMapper;
 import com.seawen.jiralite.web.rest.errors.ExceptionTranslator;
@@ -92,6 +93,9 @@ public class IssueResourceIntTest {
     private IssueService issueService;
 
     @Autowired
+    private IssueSearchRepository issueSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -143,6 +147,7 @@ public class IssueResourceIntTest {
 
     @Before
     public void initTest() {
+        issueSearchRepository.deleteAll();
         issue = createEntity(em);
     }
 
@@ -175,6 +180,10 @@ public class IssueResourceIntTest {
         assertThat(testIssue.getReporter()).isEqualTo(DEFAULT_REPORTER);
         assertThat(testIssue.getAssigner()).isEqualTo(DEFAULT_ASSIGNER);
         assertThat(testIssue.getRemark()).isEqualTo(DEFAULT_REMARK);
+
+        // Validate the Issue in Elasticsearch
+        Issue issueEs = issueSearchRepository.findOne(testIssue.getId());
+        assertThat(issueEs).isEqualToComparingFieldByField(testIssue);
     }
 
     @Test
@@ -338,6 +347,7 @@ public class IssueResourceIntTest {
     public void updateIssue() throws Exception {
         // Initialize the database
         issueRepository.saveAndFlush(issue);
+        issueSearchRepository.save(issue);
         int databaseSizeBeforeUpdate = issueRepository.findAll().size();
 
         // Update the issue
@@ -380,6 +390,10 @@ public class IssueResourceIntTest {
         assertThat(testIssue.getReporter()).isEqualTo(UPDATED_REPORTER);
         assertThat(testIssue.getAssigner()).isEqualTo(UPDATED_ASSIGNER);
         assertThat(testIssue.getRemark()).isEqualTo(UPDATED_REMARK);
+
+        // Validate the Issue in Elasticsearch
+        Issue issueEs = issueSearchRepository.findOne(testIssue.getId());
+        assertThat(issueEs).isEqualToComparingFieldByField(testIssue);
     }
 
     @Test
@@ -406,6 +420,7 @@ public class IssueResourceIntTest {
     public void deleteIssue() throws Exception {
         // Initialize the database
         issueRepository.saveAndFlush(issue);
+        issueSearchRepository.save(issue);
         int databaseSizeBeforeDelete = issueRepository.findAll().size();
 
         // Get the issue
@@ -413,9 +428,40 @@ public class IssueResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean issueExistsInEs = issueSearchRepository.exists(issue.getId());
+        assertThat(issueExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Issue> issueList = issueRepository.findAll();
         assertThat(issueList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchIssue() throws Exception {
+        // Initialize the database
+        issueRepository.saveAndFlush(issue);
+        issueSearchRepository.save(issue);
+
+        // Search the issue
+        restIssueMockMvc.perform(get("/api/_search/issues?query=id:" + issue.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(issue.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
+            .andExpect(jsonPath("$.[*].issueNo").value(hasItem(DEFAULT_ISSUE_NO.toString())))
+            .andExpect(jsonPath("$.[*].issueSubject").value(hasItem(DEFAULT_ISSUE_SUBJECT.toString())))
+            .andExpect(jsonPath("$.[*].issueType").value(hasItem(DEFAULT_ISSUE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].issuePriority").value(hasItem(DEFAULT_ISSUE_PRIORITY.toString())))
+            .andExpect(jsonPath("$.[*].issueStatus").value(hasItem(DEFAULT_ISSUE_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].reporter").value(hasItem(DEFAULT_REPORTER.toString())))
+            .andExpect(jsonPath("$.[*].assigner").value(hasItem(DEFAULT_ASSIGNER.toString())))
+            .andExpect(jsonPath("$.[*].remark").value(hasItem(DEFAULT_REMARK.toString())));
     }
 
     @Test

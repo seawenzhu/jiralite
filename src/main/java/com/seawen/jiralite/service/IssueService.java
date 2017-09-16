@@ -2,6 +2,7 @@ package com.seawen.jiralite.service;
 
 import com.seawen.jiralite.domain.Issue;
 import com.seawen.jiralite.repository.IssueRepository;
+import com.seawen.jiralite.repository.search.IssueSearchRepository;
 import com.seawen.jiralite.service.dto.IssueDTO;
 import com.seawen.jiralite.service.mapper.IssueMapper;
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Issue.
@@ -25,9 +28,12 @@ public class IssueService {
 
     private final IssueMapper issueMapper;
 
-    public IssueService(IssueRepository issueRepository, IssueMapper issueMapper) {
+    private final IssueSearchRepository issueSearchRepository;
+
+    public IssueService(IssueRepository issueRepository, IssueMapper issueMapper, IssueSearchRepository issueSearchRepository) {
         this.issueRepository = issueRepository;
         this.issueMapper = issueMapper;
+        this.issueSearchRepository = issueSearchRepository;
     }
 
     /**
@@ -40,7 +46,9 @@ public class IssueService {
         log.debug("Request to save Issue : {}", issueDTO);
         Issue issue = issueMapper.toEntity(issueDTO);
         issue = issueRepository.save(issue);
-        return issueMapper.toDto(issue);
+        IssueDTO result = issueMapper.toDto(issue);
+        issueSearchRepository.save(issue);
+        return result;
     }
 
     /**
@@ -77,5 +85,20 @@ public class IssueService {
     public void delete(Long id) {
         log.debug("Request to delete Issue : {}", id);
         issueRepository.delete(id);
+        issueSearchRepository.delete(id);
+    }
+
+    /**
+     * Search for the issue corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<IssueDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Issues for query {}", query);
+        Page<Issue> result = issueSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(issueMapper::toDto);
     }
 }

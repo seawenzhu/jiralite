@@ -9,7 +9,7 @@ import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
-    selector: 'jhi-issue',
+    selector: 'jl-issue',
     templateUrl: './issue.component.html'
 })
 export class IssueComponent implements OnInit, OnDestroy {
@@ -24,6 +24,7 @@ export class IssueComponent implements OnInit, OnDestroy {
     queryCount: any;
     reverse: any;
     totalItems: number;
+    currentSearch: string;
 
     constructor(
         private issueService: IssueService,
@@ -31,6 +32,7 @@ export class IssueComponent implements OnInit, OnDestroy {
         private dataUtils: JhiDataUtils,
         private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
+        private activatedRoute: ActivatedRoute,
         private principal: Principal
     ) {
         this.issues = [];
@@ -41,9 +43,22 @@ export class IssueComponent implements OnInit, OnDestroy {
         };
         this.predicate = 'id';
         this.reverse = true;
+        this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
     }
 
     loadAll() {
+        if (this.currentSearch) {
+            this.issueService.search({
+                query: this.currentSearch,
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            }).subscribe(
+                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+                (res: ResponseWrapper) => this.onError(res.json)
+            );
+            return;
+        }
         this.issueService.query({
             page: this.page,
             size: this.itemsPerPage,
@@ -62,6 +77,33 @@ export class IssueComponent implements OnInit, OnDestroy {
 
     loadPage(page) {
         this.page = page;
+        this.loadAll();
+    }
+
+    clear() {
+        this.issues = [];
+        this.links = {
+            last: 0
+        };
+        this.page = 0;
+        this.predicate = 'id';
+        this.reverse = true;
+        this.currentSearch = '';
+        this.loadAll();
+    }
+
+    search(query) {
+        if (!query) {
+            return this.clear();
+        }
+        this.issues = [];
+        this.links = {
+            last: 0
+        };
+        this.page = 0;
+        this.predicate = '_score';
+        this.reverse = false;
+        this.currentSearch = query;
         this.loadAll();
     }
     ngOnInit() {

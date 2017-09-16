@@ -5,6 +5,7 @@ import com.seawen.jiralite.JiraliteApp;
 import com.seawen.jiralite.domain.Project;
 import com.seawen.jiralite.repository.ProjectRepository;
 import com.seawen.jiralite.service.ProjectService;
+import com.seawen.jiralite.repository.search.ProjectSearchRepository;
 import com.seawen.jiralite.service.dto.ProjectDTO;
 import com.seawen.jiralite.service.mapper.ProjectMapper;
 import com.seawen.jiralite.web.rest.errors.ExceptionTranslator;
@@ -77,6 +78,9 @@ public class ProjectResourceIntTest {
     private ProjectService projectService;
 
     @Autowired
+    private ProjectSearchRepository projectSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -123,6 +127,7 @@ public class ProjectResourceIntTest {
 
     @Before
     public void initTest() {
+        projectSearchRepository.deleteAll();
         project = createEntity(em);
     }
 
@@ -150,6 +155,10 @@ public class ProjectResourceIntTest {
         assertThat(testProject.getCode()).isEqualTo(DEFAULT_CODE);
         assertThat(testProject.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testProject.getRemark()).isEqualTo(DEFAULT_REMARK);
+
+        // Validate the Project in Elasticsearch
+        Project projectEs = projectSearchRepository.findOne(testProject.getId());
+        assertThat(projectEs).isEqualToComparingFieldByField(testProject);
     }
 
     @Test
@@ -284,6 +293,7 @@ public class ProjectResourceIntTest {
     public void updateProject() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
+        projectSearchRepository.save(project);
         int databaseSizeBeforeUpdate = projectRepository.findAll().size();
 
         // Update the project
@@ -316,6 +326,10 @@ public class ProjectResourceIntTest {
         assertThat(testProject.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testProject.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testProject.getRemark()).isEqualTo(UPDATED_REMARK);
+
+        // Validate the Project in Elasticsearch
+        Project projectEs = projectSearchRepository.findOne(testProject.getId());
+        assertThat(projectEs).isEqualToComparingFieldByField(testProject);
     }
 
     @Test
@@ -342,6 +356,7 @@ public class ProjectResourceIntTest {
     public void deleteProject() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
+        projectSearchRepository.save(project);
         int databaseSizeBeforeDelete = projectRepository.findAll().size();
 
         // Get the project
@@ -349,9 +364,35 @@ public class ProjectResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean projectExistsInEs = projectSearchRepository.exists(project.getId());
+        assertThat(projectExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Project> projectList = projectRepository.findAll();
         assertThat(projectList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchProject() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+        projectSearchRepository.save(project);
+
+        // Search the project
+        restProjectMockMvc.perform(get("/api/_search/projects?query=id:" + project.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].remark").value(hasItem(DEFAULT_REMARK.toString())));
     }
 
     @Test

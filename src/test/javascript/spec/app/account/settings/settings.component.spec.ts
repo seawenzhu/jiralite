@@ -6,7 +6,7 @@ import { Principal, AccountService } from '../../../../../../main/webapp/app/sha
 import { SettingsComponent } from '../../../../../../main/webapp/app/account/settings/settings.component';
 import { MockAccountService } from '../../../helpers/mock-account.service';
 import { MockPrincipal } from '../../../helpers/mock-principal.service';
-import { JhiTrackerService } from '../../../../../../main/webapp/app/shared/tracker/tracker.service';
+import { JlTrackerService } from '../../../../../../main/webapp/app/shared/tracker/tracker.service';
 import { MockTrackerService } from '../../../helpers/mock-tracker.service';
 
 describe('Component Tests', () => {
@@ -32,7 +32,7 @@ describe('Component Tests', () => {
                         useClass: MockAccountService
                     },
                     {
-                        provide: JhiTrackerService,
+                        provide: JlTrackerService,
                         useClass: MockTrackerService
                     },
                     {

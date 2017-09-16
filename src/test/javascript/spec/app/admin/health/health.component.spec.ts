@@ -1,36 +1,36 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JiraliteTestModule } from '../../../test.module';
-import { JhiHealthCheckComponent } from '../../../../../../main/webapp/app/admin/health/health.component';
-import { JhiHealthService } from '../../../../../../main/webapp/app/admin/health/health.service';
+import { JlHealthCheckComponent } from '../../../../../../main/webapp/app/admin/health/health.component';
+import { JlHealthService } from '../../../../../../main/webapp/app/admin/health/health.service';
 
 describe('Component Tests', () => {
 
-    describe('JhiHealthCheckComponent', () => {
+    describe('JlHealthCheckComponent', () => {
 
-        let comp: JhiHealthCheckComponent;
-        let fixture: ComponentFixture<JhiHealthCheckComponent>;
-        let service: JhiHealthService;
+        let comp: JlHealthCheckComponent;
+        let fixture: ComponentFixture<JlHealthCheckComponent>;
+        let service: JlHealthService;
 
         beforeEach(async(() => {
             TestBed.configureTestingModule({
                 imports: [JiraliteTestModule],
-                declarations: [JhiHealthCheckComponent],
+                declarations: [JlHealthCheckComponent],
                 providers: [
-                    JhiHealthService,
+                    JlHealthService,
                     {
                         provide: NgbModal,
                         useValue: null
                     }
                 ]
-            }).overrideTemplate(JhiHealthCheckComponent, '')
+            }).overrideTemplate(JlHealthCheckComponent, '')
             .compileComponents();
         }));
 
         beforeEach(() => {
-            fixture = TestBed.createComponent(JhiHealthCheckComponent);
+            fixture = TestBed.createComponent(JlHealthCheckComponent);
             comp = fixture.componentInstance;
-            service = fixture.debugElement.injector.get(JhiHealthService);
+            service = fixture.debugElement.injector.get(JlHealthService);
         });
 
         describe('baseName and subSystemName', () => {

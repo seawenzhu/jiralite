@@ -3,13 +3,26 @@
         <span jhiTranslate="jiraliteApp.project.home.title">Projects</span>
         <button class="btn btn-primary float-right jh-create-entity create-project" [routerLink]="['/', { outlets: { popup: ['project-new'] } }]">
             <span class="fa fa-plus"></span>
-            <span  jhiTranslate="jiraliteApp.project.home.createLabel">
+            <span class="hidden-sm-down"  jhiTranslate="jiraliteApp.project.home.createLabel">
             Create new Project
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
+    <jl-alert></jl-alert>
     <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jiraliteApp.project.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
     <br/>
     <div class="table-responsive" *ngIf="projects">
@@ -30,12 +43,12 @@
             </thead>
             <tbody>
             <tr *ngFor="let project of projects ;trackBy: trackId">
-                <td><a [routerLink]="['../project', project.id ]">{{project.id}}</a></td>
-                <td>{{project.createdBy}}</td>
-                <td>{{project.createdDate | date:'medium'}}</td>
-                <td>{{project.lastModifiedBy}}</td>
-                <td>{{project.lastModifiedDate | date:'medium'}}</td>
-                <td>{{project.version}}</td>
+                <!--<td><a [routerLink]="['../project', project.id ]">{{project.id}}</a></td>-->
+                <!--<td>{{project.createdBy}}</td>-->
+                <!--<td>{{project.createdDate | date:'medium'}}</td>-->
+                <!--<td>{{project.lastModifiedBy}}</td>-->
+                <!--<td>{{project.lastModifiedDate | date:'medium'}}</td>-->
+                <!--<td>{{project.version}}</td>-->
                 <td>{{project.code}}</td>
                 <td>{{project.name}}</td>
                 <td>{{project.remark}}</td>

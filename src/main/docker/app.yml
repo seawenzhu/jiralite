@@ -6,9 +6,14 @@ services:
             - SPRING_PROFILES_ACTIVE=prod,swagger
             - SPRING_DATASOURCE_URL=jdbc:mysql://jiralite-mysql:3306/jiralite?useUnicode=true&characterEncoding=utf8&useSSL=false
             - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=jiralite-elasticsearch:9300
         ports:
             - 8080:8080
     jiralite-mysql:
         extends:
             file: mysql.yml
             service: jiralite-mysql
+    jiralite-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: jiralite-elasticsearch

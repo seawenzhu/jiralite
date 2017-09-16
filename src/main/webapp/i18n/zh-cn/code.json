@@ -4,7 +4,8 @@
             "home": {
                 "title": "Codes",
                 "createLabel": "Create a new Code",
-                "createOrEditLabel": "Create or edit a Code"
+                "createOrEditLabel": "Create or edit a Code",
+                "search": "Search for Code"
             },
             "created": "A new Code is created with identifier {{ param }}",
             "updated": "A Code is updated with identifier {{ param }}",

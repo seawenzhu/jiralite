@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { JhiTrackerService } from './../shared/tracker/tracker.service';
+import { JlTrackerService } from './../shared/tracker/tracker.service';
 
 import { JiraliteSharedModule } from '../shared';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
@@ -15,17 +15,17 @@ import {
     UserMgmtDialogComponent,
     UserMgmtDeleteDialogComponent,
     LogsComponent,
-    JhiMetricsMonitoringModalComponent,
-    JhiMetricsMonitoringComponent,
-    JhiHealthModalComponent,
-    JhiHealthCheckComponent,
-    JhiConfigurationComponent,
-    JhiDocsComponent,
+    JlMetricsMonitoringModalComponent,
+    JlMetricsMonitoringComponent,
+    JlHealthModalComponent,
+    JlHealthCheckComponent,
+    JlConfigurationComponent,
+    JlDocsComponent,
     AuditsService,
-    JhiConfigurationService,
-    JhiHealthService,
-    JhiMetricsService,
-    JhiTrackerComponent,
+    JlConfigurationService,
+    JlHealthService,
+    JlMetricsService,
+    JlTrackerComponent,
     LogsService,
     UserResolvePagingParams,
     UserResolve,
@@ -47,27 +47,27 @@ import {
         UserMgmtDialogComponent,
         UserMgmtDeleteDialogComponent,
         LogsComponent,
-        JhiConfigurationComponent,
-        JhiHealthCheckComponent,
-        JhiHealthModalComponent,
-        JhiDocsComponent,
-        JhiTrackerComponent,
-        JhiMetricsMonitoringComponent,
-        JhiMetricsMonitoringModalComponent
+        JlConfigurationComponent,
+        JlHealthCheckComponent,
+        JlHealthModalComponent,
+        JlDocsComponent,
+        JlTrackerComponent,
+        JlMetricsMonitoringComponent,
+        JlMetricsMonitoringModalComponent
     ],
     entryComponents: [
         UserMgmtDialogComponent,
         UserMgmtDeleteDialogComponent,
-        JhiHealthModalComponent,
-        JhiMetricsMonitoringModalComponent,
+        JlHealthModalComponent,
+        JlMetricsMonitoringModalComponent,
     ],
     providers: [
         AuditsService,
-        JhiConfigurationService,
-        JhiHealthService,
-        JhiMetricsService,
+        JlConfigurationService,
+        JlHealthService,
+        JlMetricsService,
         LogsService,
-        JhiTrackerService,
+        JlTrackerService,
         UserResolvePagingParams,
         UserResolve,
         UserModalService

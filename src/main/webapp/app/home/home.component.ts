@@ -5,7 +5,7 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Account, LoginModalService, Principal } from '../shared';
 
 @Component({
-    selector: 'jhi-home',
+    selector: 'jl-home',
     templateUrl: './home.component.html',
     styleUrls: [
         'home.scss'

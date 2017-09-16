@@ -7,7 +7,7 @@ import { Code } from './code.model';
 import { CodeService } from './code.service';
 
 @Component({
-    selector: 'jhi-code-detail',
+    selector: 'jl-code-detail',
     templateUrl: './code-detail.component.html'
 })
 export class CodeDetailComponent implements OnInit, OnDestroy {

@@ -13,7 +13,7 @@ import { Project, ProjectService } from '../project';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
-    selector: 'jhi-project-member-dialog',
+    selector: 'jl-project-member-dialog',
     templateUrl: './project-member-dialog.component.html'
 })
 export class ProjectMemberDialogComponent implements OnInit {
@@ -91,7 +91,7 @@ export class ProjectMemberDialogComponent implements OnInit {
 }
 
 @Component({
-    selector: 'jhi-project-member-popup',
+    selector: 'jl-project-member-popup',
     template: ''
 })
 export class ProjectMemberPopupComponent implements OnInit, OnDestroy {

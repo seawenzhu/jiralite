@@ -11,7 +11,7 @@ import { ProjectPopupService } from './project-popup.service';
 import { ProjectService } from './project.service';
 
 @Component({
-    selector: 'jhi-project-dialog',
+    selector: 'jl-project-dialog',
     templateUrl: './project-dialog.component.html'
 })
 export class ProjectDialogComponent implements OnInit {
@@ -80,7 +80,7 @@ export class ProjectDialogComponent implements OnInit {
 }
 
 @Component({
-    selector: 'jhi-project-popup',
+    selector: 'jl-project-popup',
     template: ''
 })
 export class ProjectPopupComponent implements OnInit, OnDestroy {

@@ -22,6 +22,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing CodeType.
@@ -124,4 +127,22 @@ public class CodeTypeResource {
         codeTypeService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/code-types?query=:query : search for the codeType corresponding
+     * to the query.
+     *
+     * @param query the query of the codeType search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/code-types")
+    @Timed
+    public ResponseEntity<List<CodeTypeDTO>> searchCodeTypes(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of CodeTypes for query {}", query);
+        Page<CodeTypeDTO> page = codeTypeService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/code-types");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

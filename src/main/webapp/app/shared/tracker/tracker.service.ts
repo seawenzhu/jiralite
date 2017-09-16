@@ -10,7 +10,7 @@ import * as SockJS from 'sockjs-client';
 import * as Stomp from 'webstomp-client';
 
 @Injectable()
-export class JhiTrackerService {
+export class JlTrackerService {
     stompClient = null;
     subscriber = null;
     connection: Promise<any>;

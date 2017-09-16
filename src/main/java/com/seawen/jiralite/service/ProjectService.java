@@ -2,6 +2,7 @@ package com.seawen.jiralite.service;
 
 import com.seawen.jiralite.domain.Project;
 import com.seawen.jiralite.repository.ProjectRepository;
+import com.seawen.jiralite.repository.search.ProjectSearchRepository;
 import com.seawen.jiralite.service.dto.ProjectDTO;
 import com.seawen.jiralite.service.mapper.ProjectMapper;
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Project.
@@ -25,9 +28,12 @@ public class ProjectService {
 
     private final ProjectMapper projectMapper;
 
-    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper) {
+    private final ProjectSearchRepository projectSearchRepository;
+
+    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper, ProjectSearchRepository projectSearchRepository) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
+        this.projectSearchRepository = projectSearchRepository;
     }
 
     /**
@@ -40,7 +46,9 @@ public class ProjectService {
         log.debug("Request to save Project : {}", projectDTO);
         Project project = projectMapper.toEntity(projectDTO);
         project = projectRepository.save(project);
-        return projectMapper.toDto(project);
+        ProjectDTO result = projectMapper.toDto(project);
+        projectSearchRepository.save(project);
+        return result;
     }
 
     /**
@@ -77,5 +85,20 @@ public class ProjectService {
     public void delete(Long id) {
         log.debug("Request to delete Project : {}", id);
         projectRepository.delete(id);
+        projectSearchRepository.delete(id);
+    }
+
+    /**
+     * Search for the project corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<ProjectDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Projects for query {}", query);
+        Page<Project> result = projectSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(projectMapper::toDto);
     }
 }

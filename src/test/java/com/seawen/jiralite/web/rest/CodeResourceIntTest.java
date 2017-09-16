@@ -5,6 +5,7 @@ import com.seawen.jiralite.JiraliteApp;
 import com.seawen.jiralite.domain.Code;
 import com.seawen.jiralite.repository.CodeRepository;
 import com.seawen.jiralite.service.CodeService;
+import com.seawen.jiralite.repository.search.CodeSearchRepository;
 import com.seawen.jiralite.service.dto.CodeDTO;
 import com.seawen.jiralite.service.mapper.CodeMapper;
 import com.seawen.jiralite.web.rest.errors.ExceptionTranslator;
@@ -80,6 +81,9 @@ public class CodeResourceIntTest {
     private CodeService codeService;
 
     @Autowired
+    private CodeSearchRepository codeSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -127,6 +131,7 @@ public class CodeResourceIntTest {
 
     @Before
     public void initTest() {
+        codeSearchRepository.deleteAll();
         code = createEntity(em);
     }
 
@@ -155,6 +160,10 @@ public class CodeResourceIntTest {
         assertThat(testCode.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCode.getSeqNum()).isEqualTo(DEFAULT_SEQ_NUM);
         assertThat(testCode.getRemark()).isEqualTo(DEFAULT_REMARK);
+
+        // Validate the Code in Elasticsearch
+        Code codeEs = codeSearchRepository.findOne(testCode.getId());
+        assertThat(codeEs).isEqualToComparingFieldByField(testCode);
     }
 
     @Test
@@ -291,6 +300,7 @@ public class CodeResourceIntTest {
     public void updateCode() throws Exception {
         // Initialize the database
         codeRepository.saveAndFlush(code);
+        codeSearchRepository.save(code);
         int databaseSizeBeforeUpdate = codeRepository.findAll().size();
 
         // Update the code
@@ -325,6 +335,10 @@ public class CodeResourceIntTest {
         assertThat(testCode.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testCode.getSeqNum()).isEqualTo(UPDATED_SEQ_NUM);
         assertThat(testCode.getRemark()).isEqualTo(UPDATED_REMARK);
+
+        // Validate the Code in Elasticsearch
+        Code codeEs = codeSearchRepository.findOne(testCode.getId());
+        assertThat(codeEs).isEqualToComparingFieldByField(testCode);
     }
 
     @Test
@@ -351,6 +365,7 @@ public class CodeResourceIntTest {
     public void deleteCode() throws Exception {
         // Initialize the database
         codeRepository.saveAndFlush(code);
+        codeSearchRepository.save(code);
         int databaseSizeBeforeDelete = codeRepository.findAll().size();
 
         // Get the code
@@ -358,9 +373,36 @@ public class CodeResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean codeExistsInEs = codeSearchRepository.exists(code.getId());
+        assertThat(codeExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Code> codeList = codeRepository.findAll();
         assertThat(codeList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchCode() throws Exception {
+        // Initialize the database
+        codeRepository.saveAndFlush(code);
+        codeSearchRepository.save(code);
+
+        // Search the code
+        restCodeMockMvc.perform(get("/api/_search/codes?query=id:" + code.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(code.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].seqNum").value(hasItem(DEFAULT_SEQ_NUM)))
+            .andExpect(jsonPath("$.[*].remark").value(hasItem(DEFAULT_REMARK.toString())));
     }
 
     @Test

@@ -4,7 +4,8 @@
             "home": {
                 "title": "Code Types",
                 "createLabel": "Create a new Code Type",
-                "createOrEditLabel": "Create or edit a Code Type"
+                "createOrEditLabel": "Create or edit a Code Type",
+                "search": "Search for Code Type"
             },
             "created": "A new Code Type is created with identifier {{ param }}",
             "updated": "A Code Type is updated with identifier {{ param }}",

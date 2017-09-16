@@ -22,6 +22,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing ProjectMember.
@@ -124,4 +127,22 @@ public class ProjectMemberResource {
         projectMemberService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/project-members?query=:query : search for the projectMember corresponding
+     * to the query.
+     *
+     * @param query the query of the projectMember search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/project-members")
+    @Timed
+    public ResponseEntity<List<ProjectMemberDTO>> searchProjectMembers(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of ProjectMembers for query {}", query);
+        Page<ProjectMemberDTO> page = projectMemberService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/project-members");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

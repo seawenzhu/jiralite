@@ -9,7 +9,7 @@ import { ProjectMemberPopupService } from './project-member-popup.service';
 import { ProjectMemberService } from './project-member.service';
 
 @Component({
-    selector: 'jhi-project-member-delete-dialog',
+    selector: 'jl-project-member-delete-dialog',
     templateUrl: './project-member-delete-dialog.component.html'
 })
 export class ProjectMemberDeleteDialogComponent {
@@ -39,7 +39,7 @@ export class ProjectMemberDeleteDialogComponent {
 }
 
 @Component({
-    selector: 'jhi-project-member-delete-popup',
+    selector: 'jl-project-member-delete-popup',
     template: ''
 })
 export class ProjectMemberDeletePopupComponent implements OnInit, OnDestroy {

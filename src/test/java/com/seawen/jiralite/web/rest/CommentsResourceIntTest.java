@@ -5,6 +5,7 @@ import com.seawen.jiralite.JiraliteApp;
 import com.seawen.jiralite.domain.Comments;
 import com.seawen.jiralite.repository.CommentsRepository;
 import com.seawen.jiralite.service.CommentsService;
+import com.seawen.jiralite.repository.search.CommentsSearchRepository;
 import com.seawen.jiralite.service.dto.CommentsDTO;
 import com.seawen.jiralite.service.mapper.CommentsMapper;
 import com.seawen.jiralite.web.rest.errors.ExceptionTranslator;
@@ -71,6 +72,9 @@ public class CommentsResourceIntTest {
     private CommentsService commentsService;
 
     @Autowired
+    private CommentsSearchRepository commentsSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -115,6 +119,7 @@ public class CommentsResourceIntTest {
 
     @Before
     public void initTest() {
+        commentsSearchRepository.deleteAll();
         comments = createEntity(em);
     }
 
@@ -140,6 +145,10 @@ public class CommentsResourceIntTest {
         assertThat(testComments.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
         assertThat(testComments.getVersion()).isEqualTo(DEFAULT_VERSION);
         assertThat(testComments.getRemark()).isEqualTo(DEFAULT_REMARK);
+
+        // Validate the Comments in Elasticsearch
+        Comments commentsEs = commentsSearchRepository.findOne(testComments.getId());
+        assertThat(commentsEs).isEqualToComparingFieldByField(testComments);
     }
 
     @Test
@@ -232,6 +241,7 @@ public class CommentsResourceIntTest {
     public void updateComments() throws Exception {
         // Initialize the database
         commentsRepository.saveAndFlush(comments);
+        commentsSearchRepository.save(comments);
         int databaseSizeBeforeUpdate = commentsRepository.findAll().size();
 
         // Update the comments
@@ -260,6 +270,10 @@ public class CommentsResourceIntTest {
         assertThat(testComments.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
         assertThat(testComments.getVersion()).isEqualTo(UPDATED_VERSION);
         assertThat(testComments.getRemark()).isEqualTo(UPDATED_REMARK);
+
+        // Validate the Comments in Elasticsearch
+        Comments commentsEs = commentsSearchRepository.findOne(testComments.getId());
+        assertThat(commentsEs).isEqualToComparingFieldByField(testComments);
     }
 
     @Test
@@ -286,6 +300,7 @@ public class CommentsResourceIntTest {
     public void deleteComments() throws Exception {
         // Initialize the database
         commentsRepository.saveAndFlush(comments);
+        commentsSearchRepository.save(comments);
         int databaseSizeBeforeDelete = commentsRepository.findAll().size();
 
         // Get the comments
@@ -293,9 +308,33 @@ public class CommentsResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean commentsExistsInEs = commentsSearchRepository.exists(comments.getId());
+        assertThat(commentsExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Comments> commentsList = commentsRepository.findAll();
         assertThat(commentsList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchComments() throws Exception {
+        // Initialize the database
+        commentsRepository.saveAndFlush(comments);
+        commentsSearchRepository.save(comments);
+
+        // Search the comments
+        restCommentsMockMvc.perform(get("/api/_search/comments?query=id:" + comments.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(comments.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
+            .andExpect(jsonPath("$.[*].remark").value(hasItem(DEFAULT_REMARK.toString())));
     }
 
     @Test

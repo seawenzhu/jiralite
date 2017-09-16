@@ -9,7 +9,7 @@ import { IssuePopupService } from './issue-popup.service';
 import { IssueService } from './issue.service';
 
 @Component({
-    selector: 'jhi-issue-delete-dialog',
+    selector: 'jl-issue-delete-dialog',
     templateUrl: './issue-delete-dialog.component.html'
 })
 export class IssueDeleteDialogComponent {
@@ -39,7 +39,7 @@ export class IssueDeleteDialogComponent {
 }
 
 @Component({
-    selector: 'jhi-issue-delete-popup',
+    selector: 'jl-issue-delete-popup',
     template: ''
 })
 export class IssueDeletePopupComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, forwardRef } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import {
@@ -12,9 +12,9 @@ import {
     LoginService,
     LoginModalService,
     Principal,
-    JhiTrackerService,
+    JlTrackerService,
     HasAnyAuthorityDirective,
-    JhiLoginModalComponent
+    JlLoginModalComponent
 } from './';
 import { FroalaEditorModule, FroalaViewModule } from "angular-froala-wysiwyg";
 
@@ -27,7 +27,7 @@ import "froala-editor/js/froala_editor.pkgd.min.js";
         FroalaViewModule,
     ],
     declarations: [
-        JhiLoginModalComponent,
+        JlLoginModalComponent,
         HasAnyAuthorityDirective
     ],
     providers: [
@@ -37,15 +37,15 @@ import "froala-editor/js/froala_editor.pkgd.min.js";
         StateStorageService,
         Principal,
         CSRFService,
-        JhiTrackerService,
+        JlTrackerService,
         AuthServerProvider,
         UserService,
         DatePipe
     ],
-    entryComponents: [JhiLoginModalComponent],
+    entryComponents: [JlLoginModalComponent],
     exports: [
         JiraliteSharedCommonModule,
-        JhiLoginModalComponent,
+        JlLoginModalComponent,
         HasAnyAuthorityDirective,
         FroalaEditorModule,
         FroalaViewModule,

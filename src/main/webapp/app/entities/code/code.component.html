@@ -3,13 +3,26 @@
         <span jhiTranslate="jiraliteApp.code.home.title">Codes</span>
         <button class="btn btn-primary float-right jh-create-entity create-code" [routerLink]="['/', { outlets: { popup: ['code-new'] } }]">
             <span class="fa fa-plus"></span>
-            <span  jhiTranslate="jiraliteApp.code.home.createLabel">
+            <span class="hidden-sm-down"  jhiTranslate="jiraliteApp.code.home.createLabel">
             Create new Code
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
+    <jl-alert></jl-alert>
     <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jiraliteApp.code.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
     <br/>
     <div class="table-responsive" *ngIf="codes">

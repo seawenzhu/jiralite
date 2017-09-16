@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
-export class JhiMetricsService {
+export class JlMetricsService {
 
     constructor(private http: Http) {}
 
