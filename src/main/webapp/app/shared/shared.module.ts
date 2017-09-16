@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, forwardRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import {
@@ -16,11 +16,15 @@ import {
     HasAnyAuthorityDirective,
     JhiLoginModalComponent
 } from './';
+import { FroalaEditorModule, FroalaViewModule } from "angular-froala-wysiwyg";
 
+import "froala-editor/js/froala_editor.pkgd.min.js";
 @NgModule({
     imports: [
         JiraliteSharedLibsModule,
-        JiraliteSharedCommonModule
+        JiraliteSharedCommonModule,
+        FroalaEditorModule,
+        FroalaViewModule,
     ],
     declarations: [
         JhiLoginModalComponent,
@@ -43,6 +47,8 @@ import {
         JiraliteSharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
+        FroalaEditorModule,
+        FroalaViewModule,
         DatePipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

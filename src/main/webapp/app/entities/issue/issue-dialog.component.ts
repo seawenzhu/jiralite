@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, forwardRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
@@ -11,12 +11,20 @@ import { IssuePopupService } from './issue-popup.service';
 import { IssueService } from './issue.service';
 import { Project, ProjectService } from '../project';
 import { ResponseWrapper } from '../../shared';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
     selector: 'jhi-issue-dialog',
-    templateUrl: './issue-dialog.component.html'
+    templateUrl: './issue-dialog.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => IssueDialogComponent),
+            multi: true
+        }
+    ]
 })
-export class IssueDialogComponent implements OnInit {
+export class IssueDialogComponent implements OnInit, ControlValueAccessor {
 
     issue: Issue;
     isSaving: boolean;
@@ -37,6 +45,25 @@ export class IssueDialogComponent implements OnInit {
         this.isSaving = false;
         this.projectService.query()
             .subscribe((res: ResponseWrapper) => { this.projects = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+    }
+
+    onChange = (_) => {};
+    onTouched = () => {};
+
+    writeValue(obj: any): void {
+        this.issue.remark = obj;
+    }
+
+    registerOnChange(fn: any): void {
+        this.onChange = fn;
+    }
+
+    registerOnTouched(fn: any): void {
+       this.onTouched = fn;
+    }
+
+    setDisabledState?(isDisabled: boolean): void {
+        throw new Error("Method not implemented.");
     }
 
     byteSize(field) {
