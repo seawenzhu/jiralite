@@ -25,6 +25,8 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgZorroAntdModule } from "ng-zorro-antd";
 
 @NgModule({
     imports: [
@@ -36,6 +38,8 @@ import {
         JiraliteAdminModule,
         JiraliteAccountModule,
         JiraliteEntityModule,
+        BrowserAnimationsModule,
+        NgZorroAntdModule.forRoot()
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [

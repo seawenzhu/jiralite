@@ -1,11 +1,37 @@
-<jl-page-ribbon></jl-page-ribbon>
+<!--<jl-page-ribbon></jl-page-ribbon>-->
 <div>
     <router-outlet name="navbar"></router-outlet>
 </div>
-<div class="container-fluid">
+<div class="container">
     <div class="card jh-card">
         <router-outlet></router-outlet>
         <router-outlet name="popup"></router-outlet>
     </div>
     <jl-footer></jl-footer>
+    <nz-back-top></nz-back-top>
 </div>
+
+<!--
+<nz-layout>
+    <nz-header>
+        <div>
+            <router-outlet name="navbar"></router-outlet>
+         </div>
+    </nz-header>
+    <nz-content>
+        <div class="container">
+            <div class="card jh-card">
+                <router-outlet></router-outlet>
+                <router-outlet name="popup"></router-outlet>
+            </div>
+            <jl-footer></jl-footer>
+        </div>
+    </nz-content>
+    <nz-footer>
+        <jl-footer></jl-footer>
+
+    </nz-footer>
+
+    <nz-back-top></nz-back-top>
+</nz-layout>
+-->

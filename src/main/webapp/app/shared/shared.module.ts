@@ -19,12 +19,14 @@ import {
 import { FroalaEditorModule, FroalaViewModule } from "angular-froala-wysiwyg";
 
 import "froala-editor/js/froala_editor.pkgd.min.js";
+import { NgZorroAntdModule } from "ng-zorro-antd";
 @NgModule({
     imports: [
         JiraliteSharedLibsModule,
         JiraliteSharedCommonModule,
         FroalaEditorModule,
         FroalaViewModule,
+        NgZorroAntdModule
     ],
     declarations: [
         JlLoginModalComponent,
@@ -49,6 +51,7 @@ import "froala-editor/js/froala_editor.pkgd.min.js";
         HasAnyAuthorityDirective,
         FroalaEditorModule,
         FroalaViewModule,
+        NgZorroAntdModule,
         DatePipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

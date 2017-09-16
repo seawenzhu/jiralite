@@ -2,6 +2,18 @@
 # yarn lockfile v1
 
 
+"@angular/animations@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.4.1.tgz#578d8951a273ee95936ab7f6cd933ff019ce0ffe"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/cdk@2.0.0-beta.8":
+  version "2.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-2.0.0-beta.8.tgz#71961c851dfbeb19e085e898bf5e4461408f8b57"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/cli@1.2.6":
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.2.6.tgz#76ee20f72342d9b61e1a2554f567c99e67dcf14b"
@@ -69,65 +81,65 @@
   optionalDependencies:
     node-sass "^4.3.0"
 
-"@angular/common@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/common/-/common-4.3.2.tgz#2fbd97b39e845399c3457e1d55abc6b1f60e09b8"
+"@angular/common@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-4.4.1.tgz#d1aea2ccebddd2dfaf7137f55760d45638ada24a"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/compiler-cli@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-4.3.2.tgz#a9c4b94590c82d0e3f28b1de497be636e21c3cc6"
+"@angular/compiler-cli@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-4.4.1.tgz#17b3be903efe1ed3bb2b1e29140634b500fdb265"
   dependencies:
-    "@angular/tsc-wrapped" "4.3.2"
+    "@angular/tsc-wrapped" "4.3.6"
     minimist "^1.2.0"
     reflect-metadata "^0.1.2"
 
-"@angular/compiler@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-4.3.2.tgz#b7922d0b2087a82e7b516a1c111a5993054f68b3"
+"@angular/compiler@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-4.4.1.tgz#ece6a333f8e57e819679f2a4034f807564b9cc40"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/core@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-4.3.2.tgz#ea78341c3501ad8f43b51ffb183e200dc19844c3"
+"@angular/core@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-4.4.1.tgz#a3c5b80452448535253d2eab17b60601d83cc012"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/forms@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-4.3.2.tgz#6e7c363ed994927dcefd1a191899cdb7be02cec6"
+"@angular/forms@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-4.4.1.tgz#2a3644a3f84b96aad240ac6caa74d52bf3ada24a"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/http@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/http/-/http-4.3.2.tgz#851a56b700e6cfde669776883d32b0481e0d5307"
+"@angular/http@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/http/-/http-4.4.1.tgz#9265d1802673aa5f73ac125f98fce7af8b5fa72c"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.3.2.tgz#f434f1a2e70f53803f19f8fd4f466516fc34eed5"
+"@angular/platform-browser-dynamic@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.4.1.tgz#951dd7fdb3f5a0e45bc4bf93a2a7e051def24eaf"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-4.3.2.tgz#7ff0f6a5c29f138faeeb7ab808eb7ab202a08594"
+"@angular/platform-browser@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-4.4.1.tgz#ce576401976f71d45a23c9a61ac05cef90a70f00"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/router@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-4.3.2.tgz#71edc8fe7fe4638a66d1554d5785451dcad24284"
+"@angular/router@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-4.4.1.tgz#d2c933c84a8f5077792e77787561ee1e7a4a1a14"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/tsc-wrapped@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/tsc-wrapped/-/tsc-wrapped-4.3.2.tgz#81eb97d5cd4cc5c7a0a7a442561855bdc0569387"
+"@angular/tsc-wrapped@4.3.6":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/tsc-wrapped/-/tsc-wrapped-4.3.6.tgz#1aa66e0ab2c4799a4ad14b675e13953aa5fcd436"
   dependencies:
     tsickle "^0.21.0"
 
@@ -158,6 +170,10 @@
 "@types/jasmine@2.5.53":
   version "2.5.53"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.53.tgz#4e0cefad09df5ec48c8dd40433512f84b1568d61"
+
+"@types/jquery@^2.0.40":
+  version "2.0.48"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-2.0.48.tgz#3e90d8cde2d29015e5583017f7830cb3975b2eef"
 
 "@types/node@8.0.18":
   version "8.0.18"
@@ -246,6 +262,13 @@ alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
 amdefine@>=0.0.4, amdefine@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
+
+angular-froala-wysiwyg@^2.6.6:
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/angular-froala-wysiwyg/-/angular-froala-wysiwyg-2.6.6.tgz#6e115a66c3c4ee99fa9c6aa0f4033167fd1bd687"
+  dependencies:
+    "@types/jquery" "^2.0.40"
+    froala-editor "^2.6.6"
 
 angular2-template-loader@0.6.2:
   version "0.6.2"
@@ -2786,7 +2809,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-font-awesome@4.7.0:
+font-awesome@4.7.0, font-awesome@>=4.4.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
 
@@ -2853,6 +2876,13 @@ fresh@0.5.0:
 fresh@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.3.0.tgz#651f838e22424e7566de161d8358caa199f83d4f"
+
+froala-editor@^2.6.6:
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-2.6.6.tgz#063db8ad8ab0c31f0e0397648e519eec280a78d3"
+  dependencies:
+    font-awesome ">=4.4.0"
+    jquery ">=1.11.0"
 
 from2@^2.1.0:
   version "2.3.0"
@@ -4077,7 +4107,7 @@ jhipster-core@1.3.5:
   dependencies:
     lodash "4.17.4"
 
-jquery@3.2.1:
+jquery@3.2.1, jquery@>=1.11.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
 
@@ -5015,7 +5045,7 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
-moment@^2.11.2:
+moment@^2.11.2, moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
@@ -5124,6 +5154,14 @@ ng-jhipster@0.2.12:
   dependencies:
     "@ngx-translate/core" "7.0.0"
     "@ngx-translate/http-loader" "0.1.0"
+
+ng-zorro-antd@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-0.5.0.tgz#3999d3d525f1f77e9aca184ad896d82746387a12"
+  dependencies:
+    "@angular/cdk" "2.0.0-beta.8"
+    moment "^2.18.1"
+    tslib "^1.7.1"
 
 ng2-webstorage@1.8.0:
   version "1.8.0"
