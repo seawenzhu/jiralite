@@ -62,7 +62,7 @@
                 <td>{{issue.issueStatus}}</td>
                 <td>{{issue.reporter}}</td>
                 <td>{{issue.assigner}}</td>
-                <td>{{issue.remark}}</td>
+                <td><span [froalaView]="issue.remark"></span></td>
                 <td>
                     <div *ngIf="issue.projectId">
                         <a [routerLink]="['../project', issue.projectId  ]" >{{issue.projectId}}</a>

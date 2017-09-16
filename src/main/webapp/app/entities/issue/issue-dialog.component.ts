@@ -23,6 +23,12 @@ export class IssueDialogComponent implements OnInit {
 
     projects: Project[];
 
+    options = {
+        placeholderText: '请输入Issue的详细信息...',
+        charCounterCount: true,
+        charCounterMax: 1000
+    };
+
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,

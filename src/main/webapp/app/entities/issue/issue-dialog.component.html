@@ -145,7 +145,8 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jiraliteApp.issue.remark" for="field_remark">Remark</label>
             <textarea class="form-control" name="remark" id="field_remark"
-                [(ngModel)]="issue.remark" required ></textarea>
+                      [froalaEditor]="options" [(froalaModel)]="issue.remark"
+                 required ></textarea>
             <div [hidden]="!(editForm.controls.remark?.dirty && editForm.controls.remark?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.remark?.errors?.required" jhiTranslate="entity.validation.required">
