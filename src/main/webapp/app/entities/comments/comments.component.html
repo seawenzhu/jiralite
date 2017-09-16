@@ -1,0 +1,72 @@
+<div>
+    <h2>
+        <span jhiTranslate="jiraliteApp.comments.home.title">Comments</span>
+        <button class="btn btn-primary float-right jh-create-entity create-comments" [routerLink]="['/', { outlets: { popup: ['comments-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="jiraliteApp.comments.home.createLabel">
+            Create new Comments
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="comments">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdBy"><span jhiTranslate="jiraliteApp.comments.createdBy">Created By</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdDate"><span jhiTranslate="jiraliteApp.comments.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lastModifiedBy"><span jhiTranslate="jiraliteApp.comments.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lastModifiedDate"><span jhiTranslate="jiraliteApp.comments.lastModifiedDate">Last Modified Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="version"><span jhiTranslate="jiraliteApp.comments.version">Version</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="remark"><span jhiTranslate="jiraliteApp.comments.remark">Remark</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="issueId"><span jhiTranslate="jiraliteApp.comments.issue">Issue</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let comments of comments ;trackBy: trackId">
+                <td><a [routerLink]="['../comments', comments.id ]">{{comments.id}}</a></td>
+                <td>{{comments.createdBy}}</td>
+                <td>{{comments.createdDate | date:'medium'}}</td>
+                <td>{{comments.lastModifiedBy}}</td>
+                <td>{{comments.lastModifiedDate | date:'medium'}}</td>
+                <td>{{comments.version}}</td>
+                <td>{{comments.remark}}</td>
+                <td>
+                    <div *ngIf="comments.issueId">
+                        <a [routerLink]="['../issue', comments.issueId  ]" >{{comments.issueId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../comments', comments.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'comments/'+ comments.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'comments/'+ comments.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,181 @@
+package com.seawen.jiralite.service.dto;
+
+
+import java.time.Instant;
+import javax.validation.constraints.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Objects;
+import javax.persistence.Lob;
+
+/**
+ * A DTO for the Code entity.
+ */
+public class CodeDTO implements Serializable {
+
+    private Long id;
+
+    @Size(max = 60)
+    private String createdBy;
+
+    private Instant createdDate;
+
+    @Size(max = 60)
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
+
+    private Integer version;
+
+    @NotNull
+    @Size(max = 30)
+    private String code;
+
+    @NotNull
+    @Size(max = 60)
+    private String name;
+
+    @NotNull
+    private Integer seqNum;
+
+    @Lob
+    private String remark;
+
+    private Long codeTypeId;
+
+    private String codeTypeTypeCode;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getSeqNum() {
+        return seqNum;
+    }
+
+    public void setSeqNum(Integer seqNum) {
+        this.seqNum = seqNum;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Long getCodeTypeId() {
+        return codeTypeId;
+    }
+
+    public void setCodeTypeId(Long codeTypeId) {
+        this.codeTypeId = codeTypeId;
+    }
+
+    public String getCodeTypeTypeCode() {
+        return codeTypeTypeCode;
+    }
+
+    public void setCodeTypeTypeCode(String codeTypeTypeCode) {
+        this.codeTypeTypeCode = codeTypeTypeCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        CodeDTO codeDTO = (CodeDTO) o;
+        if(codeDTO.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), codeDTO.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "CodeDTO{" +
+            "id=" + getId() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
+            ", version='" + getVersion() + "'" +
+            ", code='" + getCode() + "'" +
+            ", name='" + getName() + "'" +
+            ", seqNum='" + getSeqNum() + "'" +
+            ", remark='" + getRemark() + "'" +
+            "}";
+    }
+}

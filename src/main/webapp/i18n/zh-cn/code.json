@@ -1,0 +1,30 @@
+{
+    "jiraliteApp": {
+        "code" : {
+            "home": {
+                "title": "Codes",
+                "createLabel": "Create a new Code",
+                "createOrEditLabel": "Create or edit a Code"
+            },
+            "created": "A new Code is created with identifier {{ param }}",
+            "updated": "A Code is updated with identifier {{ param }}",
+            "deleted": "A Code is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Code {{ id }}?"
+            },
+            "detail": {
+                "title": "Code"
+            },
+            "createdBy": "Created By",
+            "createdDate": "Created Date",
+            "lastModifiedBy": "Last Modified By",
+            "lastModifiedDate": "Last Modified Date",
+            "version": "Version",
+            "code": "Code",
+            "name": "Name",
+            "seqNum": "Seq Num",
+            "remark": "Remark",
+            "codeType": "Code Type"
+        }
+    }
+}

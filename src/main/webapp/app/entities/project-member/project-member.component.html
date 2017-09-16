@@ -1,0 +1,82 @@
+<div>
+    <h2>
+        <span jhiTranslate="jiraliteApp.projectMember.home.title">Project Members</span>
+        <button class="btn btn-primary float-right jh-create-entity create-project-member" [routerLink]="['/', { outlets: { popup: ['project-member-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="jiraliteApp.projectMember.home.createLabel">
+            Create new Project Member
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="projectMembers">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdBy"><span jhiTranslate="jiraliteApp.projectMember.createdBy">Created By</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdDate"><span jhiTranslate="jiraliteApp.projectMember.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lastModifiedBy"><span jhiTranslate="jiraliteApp.projectMember.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lastModifiedDate"><span jhiTranslate="jiraliteApp.projectMember.lastModifiedDate">Last Modified Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="version"><span jhiTranslate="jiraliteApp.projectMember.version">Version</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="jiraliteApp.projectMember.name">Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="remark"><span jhiTranslate="jiraliteApp.projectMember.remark">Remark</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="projectId"><span jhiTranslate="jiraliteApp.projectMember.project">Project</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let projectMember of projectMembers ;trackBy: trackId">
+                <td><a [routerLink]="['../project-member', projectMember.id ]">{{projectMember.id}}</a></td>
+                <td>{{projectMember.createdBy}}</td>
+                <td>{{projectMember.createdDate | date:'medium'}}</td>
+                <td>{{projectMember.lastModifiedBy}}</td>
+                <td>{{projectMember.lastModifiedDate | date:'medium'}}</td>
+                <td>{{projectMember.version}}</td>
+                <td>{{projectMember.name}}</td>
+                <td>{{projectMember.remark}}</td>
+                <td>
+                    <div *ngIf="projectMember.projectId">
+                        <a [routerLink]="['../project', projectMember.projectId  ]" >{{projectMember.projectId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../project-member', projectMember.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'project-member/'+ projectMember.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'project-member/'+ projectMember.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <div *ngIf="projectMembers && projectMembers.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

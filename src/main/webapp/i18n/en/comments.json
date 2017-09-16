@@ -1,0 +1,27 @@
+{
+    "jiraliteApp": {
+        "comments" : {
+            "home": {
+                "title": "Comments",
+                "createLabel": "Create a new Comments",
+                "createOrEditLabel": "Create or edit a Comments"
+            },
+            "created": "A new Comments is created with identifier {{ param }}",
+            "updated": "A Comments is updated with identifier {{ param }}",
+            "deleted": "A Comments is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Comments {{ id }}?"
+            },
+            "detail": {
+                "title": "Comments"
+            },
+            "createdBy": "Created By",
+            "createdDate": "Created Date",
+            "lastModifiedBy": "Last Modified By",
+            "lastModifiedDate": "Last Modified Date",
+            "version": "Version",
+            "remark": "Remark",
+            "issue": "Issue"
+        }
+    }
+}

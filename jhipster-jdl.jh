@@ -1,0 +1,104 @@
+entity Code {
+    createdBy String maxlength(60),
+    createdDate Instant,
+    lastModifiedBy String maxlength(60),
+    lastModifiedDate Instant,
+    version Integer,
+    code String required maxlength(30),
+    name String required maxlength(60),
+    seqNum Integer required,
+    remark TextBlob
+}
+
+
+// Set pagination options
+paginate Code with pagination
+
+entity CodeType {
+	createdBy String maxlength(60),
+    createdDate Instant,
+    lastModifiedBy String maxlength(60),
+    lastModifiedDate Instant,
+    version Integer,
+    typeCode String required maxlength(30),
+    parentTypeCode String required maxlength(30),
+    typeName String required maxlength(60),
+    remark TextBlob
+}
+
+
+// Set pagination options
+paginate CodeType with pagination
+
+entity Project{
+	createdBy String maxlength(60),
+    createdDate Instant,
+    lastModifiedBy String maxlength(60),
+    lastModifiedDate Instant,
+    version Integer,
+    code String required maxlength(30),
+    name String required maxlength(60),
+    remark TextBlob required
+}
+
+paginate Project with pagination
+
+
+entity ProjectMember{
+	createdBy String maxlength(60),
+    createdDate Instant,
+    lastModifiedBy String maxlength(60),
+    lastModifiedDate Instant,
+    version Integer,
+    name String required maxlength(60),
+    remark TextBlob
+}
+
+paginate ProjectMember with pagination
+
+entity Issue{
+	createdBy String maxlength(60),
+    createdDate Instant,
+    lastModifiedBy String maxlength(60),
+    lastModifiedDate Instant,
+    version Integer,
+	issueNo String required maxlength(30),
+    issueSubject String maxlength(500),
+    issueType String required maxlength(30),
+    issuePriority String required maxlength(30),
+    issueStatus String maxlength(12),
+    reporter String maxlength(60),
+    assigner String maxlength(60),
+    remark TextBlob required
+
+}
+
+paginate Issue with infinite-scroll
+
+entity Comments{
+	createdBy String maxlength(60),
+    createdDate Instant,
+    lastModifiedBy String maxlength(60),
+    lastModifiedDate Instant,
+    version Integer,
+	remark TextBlob required
+}
+
+paginate Comments with infinite-scroll
+
+relationship OneToMany {
+ 	CodeType to Code{codeType(typeCode)},
+  	Project to ProjectMember{project},
+  	Project to Issue{project},
+	Issue{comments} to Comments
+}
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceClass
+
+// Set an angular suffix
+
+// skipServer for Code
+// skipClient for Code
