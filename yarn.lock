@@ -5155,9 +5155,9 @@ ng-jhipster@0.2.12:
     "@ngx-translate/core" "7.0.0"
     "@ngx-translate/http-loader" "0.1.0"
 
-ng-zorro-antd@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-0.5.0.tgz#3999d3d525f1f77e9aca184ad896d82746387a12"
+ng-zorro-antd@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-0.5.1.tgz#dcc7e6575533a7d30cdd7835a8a108cfb1b2e6b2"
   dependencies:
     "@angular/cdk" "2.0.0-beta.8"
     moment "^2.18.1"

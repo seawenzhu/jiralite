@@ -27,6 +27,7 @@ import {
 } from './layouts';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgZorroAntdModule } from "ng-zorro-antd";
+import { DashboardModule } from "./dashboard/dashboard.module";
 
 @NgModule({
     imports: [
@@ -38,6 +39,7 @@ import { NgZorroAntdModule } from "ng-zorro-antd";
         JiraliteAdminModule,
         JiraliteAccountModule,
         JiraliteEntityModule,
+        DashboardModule,
         BrowserAnimationsModule,
         NgZorroAntdModule.forRoot()
         // jhipster-needle-angular-add-module JHipster will add new module here

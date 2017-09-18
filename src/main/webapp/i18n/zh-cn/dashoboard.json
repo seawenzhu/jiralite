@@ -1,0 +1,9 @@
+{
+    "jiraliteApp": {
+        "dashboard": {
+            "home": {
+                "title": "Issues"
+            }
+        }
+    }
+}

@@ -1,0 +1,157 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Issue } from "../../entities/issue/issue.model";
+import { Subscription } from "rxjs/Subscription";
+import { IssueService } from "../../entities/issue/issue.service";
+import { JhiAlertService, JhiDataUtils, JhiEventManager, JhiParseLinks } from "ng-jhipster";
+import { ActivatedRoute } from "@angular/router";
+import { Principal } from "../../shared/auth/principal.service";
+import { ITEMS_PER_PAGE } from "../../shared/constants/pagination.constants";
+import { ResponseWrapper } from "../../shared/model/response-wrapper.model";
+
+@Component({
+  selector: 'jl-dashboard',
+  templateUrl: './dashboard.component.html',
+  styles: []
+})
+export class DashboardComponent implements OnInit, OnDestroy {
+
+    issues: Issue[];
+    currentAccount: any;
+    eventSubscriber: Subscription;
+    itemsPerPage: number;
+    links: any;
+    page: any;
+    predicate: any;
+    queryCount: any;
+    reverse: any;
+    totalItems: number;
+    currentSearch: string;
+
+    constructor(
+        private issueService: IssueService,
+        private alertService: JhiAlertService,
+        private dataUtils: JhiDataUtils,
+        private eventManager: JhiEventManager,
+        private parseLinks: JhiParseLinks,
+        private activatedRoute: ActivatedRoute,
+        private principal: Principal
+    ) {
+        this.issues = [];
+        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.page = 0;
+        this.links = {
+            last: 0
+        };
+        this.predicate = 'id';
+        this.reverse = true;
+        this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
+    }
+
+    loadAll() {
+        if (this.currentSearch) {
+            this.issueService.search({
+                query: this.currentSearch,
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            }).subscribe(
+                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+                (res: ResponseWrapper) => this.onError(res.json)
+            );
+            return;
+        }
+        this.issueService.query({
+            page: this.page,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        }).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
+    }
+
+    reset() {
+        this.page = 0;
+        this.issues = [];
+        this.loadAll();
+    }
+
+    loadPage(page) {
+        this.page = page;
+        this.loadAll();
+    }
+
+    clear() {
+        this.issues = [];
+        this.links = {
+            last: 0
+        };
+        this.page = 0;
+        this.predicate = 'id';
+        this.reverse = true;
+        this.currentSearch = '';
+        this.loadAll();
+    }
+
+    search(query) {
+        if (!query) {
+            return this.clear();
+        }
+        this.issues = [];
+        this.links = {
+            last: 0
+        };
+        this.page = 0;
+        this.predicate = '_score';
+        this.reverse = false;
+        this.currentSearch = query;
+        this.loadAll();
+    }
+    ngOnInit() {
+        this.loadAll();
+        this.principal.identity().then((account) => {
+            this.currentAccount = account;
+        });
+        this.registerChangeInIssues();
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.eventSubscriber);
+    }
+
+    trackId(index: number, item: Issue) {
+        return item.id;
+    }
+
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+    registerChangeInIssues() {
+        this.eventSubscriber = this.eventManager.subscribe('issueListModification', (response) => this.reset());
+    }
+
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
+
+    private onSuccess(data, headers) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = headers.get('X-Total-Count');
+        for (let i = 0; i < data.length; i++) {
+            this.issues.push(data[i]);
+        }
+    }
+
+    private onError(error) {
+        this.alertService.error(error.message, null, null);
+    }
+
+}
