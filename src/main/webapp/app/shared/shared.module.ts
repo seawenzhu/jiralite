@@ -20,13 +20,15 @@ import { FroalaEditorModule, FroalaViewModule } from "angular-froala-wysiwyg";
 
 import "froala-editor/js/froala_editor.pkgd.min.js";
 import { NgZorroAntdModule } from "ng-zorro-antd";
+import { ReactiveFormsModule } from "@angular/forms";
 @NgModule({
     imports: [
         JiraliteSharedLibsModule,
         JiraliteSharedCommonModule,
         FroalaEditorModule,
         FroalaViewModule,
-        NgZorroAntdModule
+        NgZorroAntdModule,
+        ReactiveFormsModule
     ],
     declarations: [
         JlLoginModalComponent,
@@ -52,6 +54,7 @@ import { NgZorroAntdModule } from "ng-zorro-antd";
         FroalaEditorModule,
         FroalaViewModule,
         NgZorroAntdModule,
+        ReactiveFormsModule,
         DatePipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

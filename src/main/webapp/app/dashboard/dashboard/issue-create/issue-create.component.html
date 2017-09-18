@@ -1,5 +1,5 @@
 <div>
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <!--<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
     <jl-alert-error></jl-alert-error>
         <div class="form-group">
@@ -121,6 +121,93 @@
             </button>
         </div>
 
-    </form>
+    </form>-->
 
+    <form nz-form [formGroup]="editForm" (ngSubmit)="save($event,editForm.value)">
+        <jl-alert-error></jl-alert-error>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="5">
+                <label nz-form-item-required>Issue No.</label>
+            </div>
+            <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('issueNo')" nzHasFeedback>
+                <nz-input formControlName="issueNo" [nzType]="'text'" [nzPlaceHolder]="'请输入Issue No.'" [nzSize]="'large'">
+                </nz-input>
+                <div nz-form-explain *ngIf="getFormControl('issueNo').dirty&&getFormControl('issueNo').hasError('required')">请输入Issue No.!</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="5">
+                <label nz-form-item-required>Issue 标题</label>
+            </div>
+            <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('issueSubject')" nzHasFeedback>
+                <nz-input formControlName="issueSubject" [nzPlaceHolder]="'Issue 标题'" [nzType]="'text'" [nzSize]="'large'">
+                </nz-input>
+                <div nz-form-explain *ngIf="getFormControl('issueSubject').dirty&&getFormControl('issueSubject').hasError('required')">请输入 Issue 标题!</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="5">
+                <label nz-form-item-required>Issue 类型</label>
+            </div>
+            <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('issueType')" nzHasFeedback>
+                <nz-select formControlName="issueType" [nzPlaceHolder]="'选择 Issue 类型'" [nzSize]="'large'">
+                    <nz-option [nzLabel]="'Bug'" [nzValue]="'bug'"></nz-option>
+                    <nz-option [nzLabel]="'Feature'" [nzValue]="'feature'"></nz-option>
+                    <nz-option [nzLabel]="'Improve'" [nzValue]="'improve'"></nz-option>
+                </nz-select>
+                <div nz-form-explain *ngIf="getFormControl('issueType').dirty&&getFormControl('issueType').hasError('required')">请选择 Issue 类型!</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="5">
+                <label nz-form-item-required>Issue 级别</label>
+            </div>
+            <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('issuePriority')" nzHasFeedback>
+                <nz-select formControlName="issuePriority" [nzPlaceHolder]="'选择 Issue 级别'" [nzSize]="'large'">
+                    <nz-option [nzLabel]="'Major'" [nzValue]="'major'"></nz-option>
+                    <nz-option [nzLabel]="'High'" [nzValue]="'high'"></nz-option>
+                    <nz-option [nzLabel]="'Medium'" [nzValue]="'medium'"></nz-option>
+                    <nz-option [nzLabel]="'Low'" [nzValue]="'low'"></nz-option>
+                </nz-select>
+                <div nz-form-explain *ngIf="getFormControl('issuePriority').dirty&&getFormControl('issuePriority').hasError('required')">请选择 Issue 级别!</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="5">
+                <label nz-form-item-required>Issue 状态</label>
+            </div>
+            <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('issueStatus')" nzHasFeedback>
+                <nz-select formControlName="issueStatus" [nzPlaceHolder]="'选择 Issue 状态'" [nzSize]="'large'">
+                    <nz-option [nzLabel]="'Open'" [nzValue]="'open'"></nz-option>
+                    <nz-option [nzLabel]="'Processing'" [nzValue]="'processing'"></nz-option>
+                    <nz-option [nzLabel]="'Pending'" [nzValue]="'pending'"></nz-option>
+                    <nz-option [nzLabel]="'Closed'" [nzValue]="'closed'"></nz-option>
+                </nz-select>
+                <div nz-form-explain *ngIf="getFormControl('issueStatus').dirty&&getFormControl('issueStatus').hasError('required')">请选择 Issue 状态!</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-col [nzSpan]="5" nz-form-label>
+                <label nz-form-item-required>描述</label>
+            </div>
+            <div>
+                <div nz-col [nzSpan]="19" nz-form-control [nzValidateStatus]="getFormControl('remark')" nzHasFeedback>
+                    <!--<nz-input formControlName="remark"-->
+                              <!--[froalaEditor]="options"-->
+                              <!--[nzRows]="3"-->
+                              <!--[nzType]="'textarea'" [nzPlaceHolder]="'write any thing'" [nzSize]="'large'">-->
+                    <!--</nz-input>-->
+                    <textarea [froalaEditor]="options" rows="3" formControlName="remark"></textarea>
+                    <div nz-form-explain *ngIf="getFormControl('remark').dirty&&getFormControl('remark').hasError('required')">请填写详细的描述!</div>
+                </div>
+            </div>
+        </div>
+
+        <div nz-form-item nz-row>
+            <div nz-col [nzOffset]="5" [nzSpan]="12" nz-form-control>
+                <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!editForm.valid">保存</button>
+                <button nz-button [nzSize]="'large'" [routerLink]="['/dashboard']">取消</button>
+            </div>
+        </div>
+    </form>
 </div>

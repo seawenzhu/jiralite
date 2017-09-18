@@ -22,5 +22,14 @@ export const DashboardRoute: Routes = [
             pageTitle: 'jiraliteApp.dashoboard.home.title'
         },
         canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'dashboard/:id/issue-edit',
+        component: IssueCreateComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jiraliteApp.issue.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     }
 ];
