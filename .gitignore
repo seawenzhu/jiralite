@@ -3,7 +3,7 @@
 ######################
 /src/main/webapp/content/css/main.css
 /src/main/webapp/app/**/*.js
-/src/main/java/com/service/util/QiniuyunUtil.java
+/src/main/java/com/seawen/jiralite/service/util/QiniuyunUtil.java
 /target/www/**
 /src/test/javascript/coverage/
 /src/test/javascript/PhantomJS*/
