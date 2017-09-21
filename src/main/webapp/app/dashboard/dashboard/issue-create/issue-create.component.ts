@@ -7,7 +7,8 @@ import { IssueService } from "../../../entities/issue/issue.service";
 import { ProjectService } from "../../../entities/project/project.service";
 import { ResponseWrapper } from "../../../shared/model/response-wrapper.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { LocalStorageService, SessionStorageService } from "ng2-webstorage";
 
 @Component({
   selector: 'jl-issue-create',
@@ -22,22 +23,34 @@ export class IssueCreateComponent implements OnInit, OnDestroy {
 
     projects: Project[];
 
-    options = {
-        placeholderText: '请输入Issue的详细信息...',
-        height: 200
-    };
+    options: Object;
 
     editForm: FormGroup;
 
     constructor(
+        private localStorage: LocalStorageService,
+        private sessionStorage: SessionStorageService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private router: Router,
         private dataUtils: JhiDataUtils,
         private alertService: JhiAlertService,
         private issueService: IssueService,
         private projectService: ProjectService,
         private eventManager: JhiEventManager
     ) {
+        const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
+        this.options = {
+            placeholderText: '请输入Issue的详细信息...',
+            toolbarBottom: true,
+            height: 300,
+            imageUploadURL: 'api/common/file/upload',
+            requestHeaders: {
+                Authorization: 'Bearer ' + token
+            },
+            toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', '|',
+                'align', 'insertLink', 'insertImage', 'insertTable', '|', 'insertHR']
+        };
     }
 
     ngOnInit() {
@@ -54,6 +67,8 @@ export class IssueCreateComponent implements OnInit, OnDestroy {
             if ( id ) {
                 this.issueService.find(id).subscribe((issue) => {
                     this.editForm = this.fb.group({
+                        id                 : [ issue.id ],
+                        version            : [ issue.version ],
                         issueNo            : [ issue.issueNo, [ Validators.required ] ],
                         issueSubject       : [ issue.issueSubject, [ Validators.required ] ],
                         issueType          : [ issue.issueType, [ Validators.required ] ],
@@ -107,13 +122,14 @@ export class IssueCreateComponent implements OnInit, OnDestroy {
         console.log(value);
 
         this.isSaving = true;
-        if (this.issue.id !== undefined) {
+        if (value.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.issueService.update(this.issue));
+                this.issueService.update(value));
         } else {
             this.subscribeToSaveResponse(
-                this.issueService.create(this.issue));
+                this.issueService.create(value));
         }
+        this.router.navigate(['/dashboard']);
     }
 
     private subscribeToSaveResponse(result: Observable<Issue>) {

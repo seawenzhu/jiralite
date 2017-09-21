@@ -51,7 +51,7 @@ public class ProjectMember extends AbstractAuditingEntity implements Serializabl
     @Column(name = "remark")
     private String remark;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
     private Project project;
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove

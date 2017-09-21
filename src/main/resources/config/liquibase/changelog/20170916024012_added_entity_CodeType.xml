@@ -47,7 +47,7 @@
             </column>
 
             <column name="parent_type_code" type="varchar(30)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
             <column name="type_name" type="varchar(60)">

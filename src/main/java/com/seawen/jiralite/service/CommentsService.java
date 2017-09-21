@@ -1,7 +1,9 @@
 package com.seawen.jiralite.service;
 
 import com.seawen.jiralite.domain.Comments;
+import com.seawen.jiralite.domain.Issue;
 import com.seawen.jiralite.repository.CommentsRepository;
+import com.seawen.jiralite.repository.IssueRepository;
 import com.seawen.jiralite.repository.search.CommentsSearchRepository;
 import com.seawen.jiralite.service.dto.CommentsDTO;
 import com.seawen.jiralite.service.mapper.CommentsMapper;
@@ -25,13 +27,18 @@ public class CommentsService {
     private final Logger log = LoggerFactory.getLogger(CommentsService.class);
 
     private final CommentsRepository commentsRepository;
+    private final IssueRepository issueRepository;
 
     private final CommentsMapper commentsMapper;
 
     private final CommentsSearchRepository commentsSearchRepository;
 
-    public CommentsService(CommentsRepository commentsRepository, CommentsMapper commentsMapper, CommentsSearchRepository commentsSearchRepository) {
+    public CommentsService(CommentsRepository commentsRepository,
+                           IssueRepository issueRepository,
+                           CommentsMapper commentsMapper,
+                           CommentsSearchRepository commentsSearchRepository) {
         this.commentsRepository = commentsRepository;
+        this.issueRepository = issueRepository;
         this.commentsMapper = commentsMapper;
         this.commentsSearchRepository = commentsSearchRepository;
     }
@@ -45,6 +52,8 @@ public class CommentsService {
     public CommentsDTO save(CommentsDTO commentsDTO) {
         log.debug("Request to save Comments : {}", commentsDTO);
         Comments comments = commentsMapper.toEntity(commentsDTO);
+        Issue issue = this.issueRepository.findOne(comments.getIssue().getId());
+        comments.setIssue(issue);
         comments = commentsRepository.save(comments);
         CommentsDTO result = commentsMapper.toDto(comments);
         commentsSearchRepository.save(comments);

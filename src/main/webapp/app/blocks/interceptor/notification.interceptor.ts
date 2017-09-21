@@ -13,6 +13,8 @@ export class NotificationInterceptor extends JhiHttpInterceptor {
     }
 
     requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {
+        console.log('>>> requestIntercept <<<');
+        console.log(options);
         return options;
     }
 

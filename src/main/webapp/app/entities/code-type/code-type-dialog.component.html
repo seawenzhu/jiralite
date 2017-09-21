@@ -71,12 +71,8 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jiraliteApp.codeType.parentTypeCode" for="field_parentTypeCode">Parent Type Code</label>
             <input type="text" class="form-control" name="parentTypeCode" id="field_parentTypeCode"
-                [(ngModel)]="codeType.parentTypeCode" required maxlength="30" />
+                [(ngModel)]="codeType.parentTypeCode" maxlength="30" />
             <div [hidden]="!(editForm.controls.parentTypeCode?.dirty && editForm.controls.parentTypeCode?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.parentTypeCode?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.parentTypeCode?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 30 }">
                    This field cannot be longer than 30 characters.

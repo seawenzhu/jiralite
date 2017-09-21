@@ -32,7 +32,6 @@ public class CodeTypeDTO implements Serializable {
     @Size(max = 30)
     private String typeCode;
 
-    @NotNull
     @Size(max = 30)
     private String parentTypeCode;
 

@@ -60,7 +60,7 @@ public class Code extends AbstractAuditingEntity implements Serializable {
     @Column(name = "remark")
     private String remark;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "code_type_code", referencedColumnName = "type_code")
     private CodeType codeType;
 

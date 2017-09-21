@@ -1,0 +1,166 @@
+
+<div *ngIf="issue">
+    <h2><span jhiTranslate="jiraliteApp.issue.detail.title">Issue</span> {{issue.id}}</h2>
+    <hr>
+    <jl-alert-error></jl-alert-error>
+
+    <form nz-form>
+
+        <div nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>编号</label>
+            </div>
+            <div nz-col [nzSpan]="4" nz-form-control>
+                <span nz-form-text>{{issue.issueNo}}</span>
+            </div>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>类型</label>
+            </div>
+            <div nz-col [nzSpan]="4" nz-form-control>
+                <span nz-form-text>{{issue.issueType}}</span>
+            </div>
+        </div>
+        <div nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>状态</label>
+            </div>
+            <div nz-col [nzSpan]="4" nz-form-control>
+                <span nz-form-text>{{issue.issueStatus}}</span>
+            </div>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>级别</label>
+            </div>
+            <div nz-col [nzSpan]="4" nz-form-control>
+                <span nz-form-text>{{issue.issuePriority}}</span>
+            </div>
+        </div>
+        <div nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>创建者</label>
+            </div>
+            <div nz-col [nzSpan]="4" nz-form-control>
+                <span nz-form-text>{{issue.createdBy}}</span>
+            </div>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>创建时间</label>
+            </div>
+            <div nz-col [nzSpan]="4" nz-form-control>
+                <span nz-form-text>{{issue.createdDate | date:'medium'}}</span>
+            </div>
+        </div>
+        <div nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>更新者</label>
+            </div>
+            <div nz-col [nzSpan]="4" nz-form-control>
+                <span nz-form-text>{{issue.lastModifiedBy}}</span>
+            </div>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>更新时间</label>
+            </div>
+            <div nz-col [nzSpan]="4" nz-form-control>
+                <span nz-form-text>{{issue.lastModifiedDate | date:'medium'}}</span>
+            </div>
+        </div>
+
+        <div nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>标题</label>
+            </div>
+            <div nz-col [nzSpan]="12" nz-form-control>
+                <span nz-form-text>{{issue.issueSubject}}</span>
+            </div>
+        </div>
+        <div nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+                <label>描述</label>
+            </div>
+            <div nz-col [nzSpan]="12" nz-form-control>
+                <span nz-form-text [froalaView]="issue.remark"></span>
+            </div>
+        </div>
+
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSpan]="3">
+            </div>
+            <div nz nz-col [nzSpan]="12" nz-form-control>
+                <nz-affix>
+                    <button nz-button [nzSize]="'large'">Close</button>
+                    <button nz-button [nzSize]="'large'">Reopen</button>
+                    <button [routerLink]="['/dashboard/'+issue.id + '/issue-edit']" nz-button [nzSize]="'large'">Edit</button>
+                    <button (click)="previousState()" nz-button [nzSize]="'large'">Back</button>
+                </nz-affix>
+            </div>
+        </div>
+    </form>
+
+   <!-- <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jiraliteApp.issue.createdBy">Created By</span></dt>
+        <dd>
+            <span>{{issue.createdBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.createdDate">Created Date</span></dt>
+        <dd>
+            <span>{{issue.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+            <span>{{issue.lastModifiedBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+            <span>{{issue.lastModifiedDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issueNo">Issue No</span></dt>
+        <dd>
+            <span>{{issue.issueNo}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issueSubject">Issue Subject</span></dt>
+        <dd>
+            <span>{{issue.issueSubject}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issueType">Issue Type</span></dt>
+        <dd>
+            <span>{{issue.issueType}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issuePriority">Issue Priority</span></dt>
+        <dd>
+            <span>{{issue.issuePriority}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issueStatus">Issue Status</span></dt>
+        <dd>
+            <span>{{issue.issueStatus}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.reporter">Reporter</span></dt>
+        <dd>
+            <span>{{issue.reporter}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.assigner">Assigner</span></dt>
+        <dd>
+            <span>{{issue.assigner}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.remark">Remark</span></dt>
+        <dd>
+            <span [froalaView]="issue.remark"></span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.project">Project</span></dt>
+        <dd>
+            <div *ngIf="issue.projectId">
+                <a [routerLink]="['/project', issue.projectId]">{{issue.projectId}}</a>
+            </div>
+        </dd>
+    </dl>-->
+
+    <!--<button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+    <button type="button"
+            [routerLink]="['/dashboard/'+issue.id + '/issue-edit']"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>
+        <span jhiTranslate="entity.action.edit">Edit</span>
+    </button>-->
+</div>

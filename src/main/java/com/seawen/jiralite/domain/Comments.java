@@ -47,7 +47,7 @@ public class Comments extends AbstractAuditingEntity implements Serializable {
     @Column(name = "remark", nullable = false)
     private String remark;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
     private Issue issue;
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
