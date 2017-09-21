@@ -7,6 +7,8 @@ import com.seawen.jiralite.repository.IssueRepository;
 import com.seawen.jiralite.repository.search.CommentsSearchRepository;
 import com.seawen.jiralite.service.dto.CommentsDTO;
 import com.seawen.jiralite.service.mapper.CommentsMapper;
+import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -74,6 +76,19 @@ public class CommentsService {
     }
 
     /**
+     *  Get all the comments.
+     *
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<CommentsDTO> findAllByIssueId(Long issueId, Pageable pageable) {
+        log.debug("Request to get all Comments");
+        return commentsRepository.findAllByIssueId(issueId, pageable)
+            .map(commentsMapper::toDto);
+    }
+
+    /**
      *  Get one comments by id.
      *
      *  @param id the id of the entity
@@ -100,14 +115,21 @@ public class CommentsService {
     /**
      * Search for the comments corresponding to the query.
      *
-     *  @param query the query of the search
+     *
+     * @param issueId
+     * @param query the query of the search
      *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
-    public Page<CommentsDTO> search(String query, Pageable pageable) {
+    public Page<CommentsDTO> search(Long issueId, String query, Pageable pageable) {
         log.debug("Request to search for a page of Comments for query {}", query);
-        Page<Comments> result = commentsSearchRepository.search(queryStringQuery(query), pageable);
+        final BoolQueryBuilder qb = new BoolQueryBuilder();
+        if (issueId != null) {
+            qb.must(termQuery("issueId", issueId));
+        }
+        qb.must(queryStringQuery(query));
+        Page<Comments> result = commentsSearchRepository.search(qb, pageable);
         return result.map(commentsMapper::toDto);
     }
 }

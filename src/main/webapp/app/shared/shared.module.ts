@@ -21,6 +21,7 @@ import { FroalaEditorModule, FroalaViewModule } from "angular-froala-wysiwyg";
 import "froala-editor/js/froala_editor.pkgd.min.js";
 import { NgZorroAntdModule } from "ng-zorro-antd";
 import { ReactiveFormsModule } from "@angular/forms";
+import { NzScrollService } from "ng-zorro-antd/src/core/scroll/nz-scroll.service";
 @NgModule({
     imports: [
         JiraliteSharedLibsModule,
@@ -44,6 +45,7 @@ import { ReactiveFormsModule } from "@angular/forms";
         JlTrackerService,
         AuthServerProvider,
         UserService,
+        NzScrollService,
         DatePipe
     ],
     entryComponents: [JlLoginModalComponent],

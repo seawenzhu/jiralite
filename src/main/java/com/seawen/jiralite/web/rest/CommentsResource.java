@@ -93,9 +93,11 @@ public class CommentsResource {
      */
     @GetMapping("/comments")
     @Timed
-    public ResponseEntity<List<CommentsDTO>> getAllComments(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<CommentsDTO>> getAllComments(@RequestParam(required = false) Long issueId,
+                                                            @ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Comments");
-        Page<CommentsDTO> page = commentsService.findAll(pageable);
+//        Page<CommentsDTO> page = commentsService.findAll(pageable);
+        Page<CommentsDTO> page = commentsService.findAllByIssueId(issueId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/comments");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -138,9 +140,11 @@ public class CommentsResource {
      */
     @GetMapping("/_search/comments")
     @Timed
-    public ResponseEntity<List<CommentsDTO>> searchComments(@RequestParam String query, @ApiParam Pageable pageable) {
+    public ResponseEntity<List<CommentsDTO>> searchComments(@RequestParam(required = false) Long issueId,
+                                                            @RequestParam String query,
+                                                            @ApiParam Pageable pageable) {
         log.debug("REST request to search for a page of Comments for query {}", query);
-        Page<CommentsDTO> page = commentsService.search(query, pageable);
+        Page<CommentsDTO> page = commentsService.search(issueId, query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/comments");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

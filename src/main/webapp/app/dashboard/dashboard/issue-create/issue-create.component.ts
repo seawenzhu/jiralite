@@ -42,7 +42,6 @@ export class IssueCreateComponent implements OnInit, OnDestroy {
         const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
         this.options = {
             placeholderText: '请输入Issue的详细信息...',
-            toolbarBottom: true,
             height: 300,
             imageUploadURL: 'api/common/file/upload',
             requestHeaders: {
@@ -129,7 +128,6 @@ export class IssueCreateComponent implements OnInit, OnDestroy {
             this.subscribeToSaveResponse(
                 this.issueService.create(value));
         }
-        this.router.navigate(['/dashboard']);
     }
 
     private subscribeToSaveResponse(result: Observable<Issue>) {
@@ -141,6 +139,7 @@ export class IssueCreateComponent implements OnInit, OnDestroy {
         this.eventManager.broadcast({ name: 'issueListModification', content: 'OK'});
         this.isSaving = false;
         // this.activeModal.dismiss(result);
+        this.router.navigate(['/dashboard']);
     }
 
     private onSaveError() {

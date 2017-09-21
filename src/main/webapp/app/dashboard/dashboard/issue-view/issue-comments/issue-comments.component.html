@@ -1,0 +1,16 @@
+<div infinite-scroll (scrolled)="loadPage(page + 1)"
+     [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+    <div *ngFor="let comments of comments ;trackBy: trackId"
+         nz-row [nzGutter]="8" class="gutter-row" >
+        <div nz-col [nzSpan]="3">
+            <div class="gutter-box">{{comments.createdBy}}</div>
+            <div class="gutter-box">{{comments.createdDate | date:'short'}}</div>
+        </div>
+        <div nz-col [nzSpan]="12">
+            <div class="gutter-box">
+                <span [froalaView]="comments.remark"></span>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -44,6 +44,9 @@ export class CommentsService {
 
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
+        if (req.issueId) {
+            options.params.set("issueId", req.issueId);
+        }
         return this.http.get(this.resourceUrl, options)
             .map((res: Response) => this.convertResponse(res));
     }
@@ -54,6 +57,9 @@ export class CommentsService {
 
     search(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
+        if (req.issueId) {
+            options.params.set("issueId", req.issueId);
+        }
         return this.http.get(this.resourceSearchUrl, options)
             .map((res: any) => this.convertResponse(res));
     }

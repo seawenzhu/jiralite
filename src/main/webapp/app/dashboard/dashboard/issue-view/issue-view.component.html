@@ -94,6 +94,14 @@
         </div>
     </form>
 
+
+    <hr style="margin: 24px 0;">
+
+    <jl-issue-comments [issueId]="issue.id"></jl-issue-comments>
+
+    <jl-comments-create [issueId]="issue.id"></jl-comments-create>
+
+
    <!-- <dl class="row-md jh-entity-details">
         <dt><span jhiTranslate="jiraliteApp.issue.createdBy">Created By</span></dt>
         <dd>

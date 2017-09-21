@@ -1,0 +1,23 @@
+<div>
+    <form nz-form [formGroup]="editForm" (ngSubmit)="save($event,editForm.value)">
+        <jl-alert-error></jl-alert-error>
+        <div nz-form-item nz-row>
+            <div [nzOffset]="'3'" nz-col [nzSpan]="20" nz-form-control [nzValidateStatus]="getFormControl('remark')" nzHasFeedback>
+                <textarea [froalaEditor]="options" formControlName="remark"></textarea>
+                <!--<div nz-form-explain *ngIf="getFormControl('remark').dirty&&getFormControl('remark').hasError('required')">请填写详细的描述!</div>-->
+            </div>
+        </div>
+
+        <div nz-form-item nz-row>
+            <div nz-col [nzOffset]="'3'" [nzSpan]="12" nz-form-control>
+                <button nz-button [nzType]="'primary'" [nzSize]="'large'"
+                        [nzLoading]="isSaving"
+                        [disabled]="!editForm.valid">
+                    <i class="anticon anticon-poweroff"></i>
+                    <span>评论</span>
+                </button>
+                <!--<button nz-button [nzSize]="'large'" [routerLink]="['/dashboard']">取消</button>-->
+            </div>
+        </div>
+    </form>
+</div>
