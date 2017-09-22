@@ -7,6 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Principal } from "../../../../shared/auth/principal.service";
 import { ITEMS_PER_PAGE } from "../../../../shared/constants/pagination.constants";
 import { ResponseWrapper } from "../../../../shared/model/response-wrapper.model";
+import { NzModalService } from "ng-zorro-antd";
 
 @Component({
     selector: 'jl-issue-comments',
@@ -23,6 +24,7 @@ export class IssueCommentsComponent implements OnInit, OnDestroy {
 
     @Input("issueId") issueId: number;
 
+    currentEditComments: Comments;
     comments: Comments[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -42,6 +44,7 @@ export class IssueCommentsComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
         private activatedRoute: ActivatedRoute,
+        private confirmServ: NzModalService,
         private principal: Principal
     ) {
         this.comments = [];
@@ -142,6 +145,35 @@ export class IssueCommentsComponent implements OnInit, OnDestroy {
     }
     registerChangeInComments() {
         this.eventSubscriber = this.eventManager.subscribe('commentsListModification', (response) => this.reset());
+    }
+
+    deleteComment(comments: Comments) {
+        const $this = this;
+        this.confirmServ.confirm({
+            title  : '您是否确认要删除这项内容',
+            // content: '点确认 1 秒后关闭',
+            onOk() {
+                $this.commentsService.delete(comments.id).subscribe((response) => {
+                    $this.eventManager.broadcast({
+                        name: 'commentsListModification',
+                        content: 'Deleted an comments'
+                    });
+                });
+            },
+            onCancel() {
+            }
+        });
+
+    }
+
+    editComment(comments: Comments) {
+        this.commentsService.find(comments.id).subscribe((current) => {
+            this.currentEditComments = current;
+        });
+    }
+
+    editCommentFinished(finished: boolean) {
+       this.currentEditComments = null;
     }
 
     sort() {

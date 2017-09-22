@@ -16,7 +16,7 @@
                     <i class="anticon anticon-poweroff"></i>
                     <span>评论</span>
                 </button>
-                <!--<button nz-button [nzSize]="'large'" [routerLink]="['/dashboard']">取消</button>-->
+                <button *ngIf="comment" nz-button [nzSize]="'large'" (click)="cancelComment()">取消</button>
             </div>
         </div>
     </form>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { JhiAlertService, JhiDataUtils, JhiEventManager } from "ng-jhipster";
 import { CommentsService } from "../../../../entities/comments/comments.service";
@@ -17,7 +17,9 @@ import { NzScrollService } from "ng-zorro-antd/src/core/scroll/nz-scroll.service
 })
 export class CommentsCreateComponent implements OnInit {
 
-    @Input("issueId") issueId: number;
+    @Input() issueId: number;
+    @Input() comment: Comments;
+    @Output() editCommentFinished = new EventEmitter<boolean>();
 
     isSaving: boolean;
 
@@ -57,9 +59,11 @@ export class CommentsCreateComponent implements OnInit {
 
     private initCommentForm() {
         this.editForm = this.fb.group({
+            id: [this.comment && this.comment.id],
             issueId: [this.issueId, [Validators.required]],
-            remark: ['', [Validators.required]]
+            remark: [this.comment && this.comment.remark, [Validators.required]]
         });
+        console.log(this.editForm);
     }
 
     getFormControl(name) {
@@ -92,13 +96,18 @@ export class CommentsCreateComponent implements OnInit {
         console.log(value);
 
         this.isSaving = true;
-        // if (value.id !== undefined) {
-        //     this.subscribeToSaveResponse(
-        //         this.commentsService.update(value));
-        // } else {
+        if (value.id !== undefined) {
+            value.version = this.comment.version;
+            this.subscribeToSaveResponse(
+                this.commentsService.update(value));
+        } else {
             this.subscribeToSaveResponse(
                 this.commentsService.create(value));
-        // }
+        }
+    }
+
+    cancelComment() {
+        this.editCommentFinished.emit(true);
     }
 
     private subscribeToSaveResponse(result: Observable<Comments>) {
@@ -117,7 +126,12 @@ export class CommentsCreateComponent implements OnInit {
                 this.editForm.controls[key].markAsPristine();
             }
         }
-        this.nzScrollService.scrollTo(window, document.body.scrollHeight);
+        if (!this.comment) {
+            this.nzScrollService.scrollTo(window, document.body.scrollHeight);
+        } else {
+            this.editCommentFinished.emit(true);
+        }
+
     }
 
     private onSaveError() {

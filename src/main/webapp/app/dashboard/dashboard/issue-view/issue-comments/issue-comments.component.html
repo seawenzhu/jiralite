@@ -2,14 +2,30 @@
      [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
     <div *ngFor="let comments of comments ;trackBy: trackId"
          nz-row [nzGutter]="8" class="gutter-row" >
-        <div nz-col [nzSpan]="3">
-            <div class="gutter-box">{{comments.createdBy}}</div>
-            <div class="gutter-box">{{comments.createdDate | date:'short'}}</div>
-        </div>
-        <div nz-col [nzSpan]="12">
-            <div class="gutter-box">
-                <span [froalaView]="comments.remark"></span>
+        <div *ngIf="!currentEditComments ||  currentEditComments.id != comments.id" class="">
+            <div nz-col [nzSpan]="3">
+                <div class="gutter-box">{{comments.createdBy}}</div>
+                <div class="gutter-box">{{comments.createdDate | date:'short'}}</div>
             </div>
+            <div nz-col [nzSpan]="18">
+                <div class="gutter-box">
+                    <span [froalaView]="comments.remark"></span>
+                </div>
+            </div>
+            <div class="comments-action" *ngIf="currentAccount.login == comments.createdBy">
+                <a (click)="deleteComment(comments)" class="">
+                    <i class="anticon anticon-delete"></i>
+                </a>
+                <a (click)="editComment(comments)" class="">
+                    <i class="anticon anticon-edit"></i>
+                </a>
+            </div>
+        </div>
+
+
+        <div *ngIf="currentEditComments && currentEditComments.id == comments.id" class="comments-action">
+            <jl-comments-create (editCommentFinished)="editCommentFinished($event)" [issueId]="currentEditComments.issueId"
+                                [comment]="currentEditComments"></jl-comments-create>
         </div>
     </div>
 </div>
