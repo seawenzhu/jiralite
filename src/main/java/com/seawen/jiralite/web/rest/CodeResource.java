@@ -93,9 +93,11 @@ public class CodeResource {
      */
     @GetMapping("/codes")
     @Timed
-    public ResponseEntity<List<CodeDTO>> getAllCodes(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<CodeDTO>> getAllCodes(@RequestParam(required = false) String code,
+                                                     @RequestParam(required = false) String typeCode,
+                                                     @ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Codes");
-        Page<CodeDTO> page = codeService.findAll(pageable);
+        Page<CodeDTO> page = codeService.findAllByTypeCodeAndCode(typeCode, code, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/codes");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

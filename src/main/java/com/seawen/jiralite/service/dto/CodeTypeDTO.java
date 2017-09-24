@@ -28,7 +28,7 @@ public class CodeTypeDTO implements Serializable {
 
     private Integer version;
 
-    @NotNull
+//    @NotNull
     @Size(max = 30)
     private String typeCode;
 

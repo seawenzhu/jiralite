@@ -9,6 +9,7 @@ import {
     JlAlertComponent,
     JlAlertErrorComponent
 } from './';
+import { CodeSelectComponent } from "./code/code-select.component";
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import {
     declarations: [
         FindLanguageFromKeyPipe,
         JlAlertComponent,
-        JlAlertErrorComponent
+        JlAlertErrorComponent,
+        CodeSelectComponent
     ],
     providers: [
         JhiLanguageHelper,
@@ -32,7 +34,8 @@ import {
         JiraliteSharedLibsModule,
         FindLanguageFromKeyPipe,
         JlAlertComponent,
-        JlAlertErrorComponent
+        JlAlertErrorComponent,
+        CodeSelectComponent
     ]
 })
 export class JiraliteSharedCommonModule {}

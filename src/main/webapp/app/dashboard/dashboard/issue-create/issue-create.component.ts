@@ -9,6 +9,8 @@ import { ResponseWrapper } from "../../../shared/model/response-wrapper.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LocalStorageService, SessionStorageService } from "ng2-webstorage";
+import { CodeConstants } from "../../../shared/constants/code-constants";
+import { Code } from "../../../entities/code/code.model";
 
 @Component({
   selector: 'jl-issue-create',
@@ -26,6 +28,13 @@ export class IssueCreateComponent implements OnInit, OnDestroy {
     options: Object;
 
     editForm: FormGroup;
+
+    issueStatus = CodeConstants.TypeCode_ISSUE_STATUS;
+    typeStatus = CodeConstants.TypeCode_ISSUE_TYPE;
+    priorityStatus = CodeConstants.TypeCode_ISSUE_PRIORITY;
+    statusCodes: Code[];
+    typeCodes: Code[];
+    priorityCodes: Code[];
 
     constructor(
         private localStorage: LocalStorageService,
@@ -50,6 +59,18 @@ export class IssueCreateComponent implements OnInit, OnDestroy {
             toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', '|',
                 'align', 'insertLink', 'insertImage', 'insertTable', '|', 'insertHR']
         };
+    }
+
+    receiveStatusCodes(recievedCodes: any[]) {
+        this.statusCodes = recievedCodes;
+    }
+
+    receiveTypeCodes(recievedCodes: any[]) {
+        this.typeCodes = recievedCodes;
+    }
+
+    receivePriorityCodes(recievedCodes: any[]) {
+        this.priorityCodes = recievedCodes;
     }
 
     ngOnInit() {

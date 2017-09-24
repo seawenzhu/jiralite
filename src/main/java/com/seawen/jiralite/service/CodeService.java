@@ -1,16 +1,20 @@
 package com.seawen.jiralite.service;
 
 import com.seawen.jiralite.domain.Code;
+import com.seawen.jiralite.domain.CodeType;
 import com.seawen.jiralite.repository.CodeRepository;
+import com.seawen.jiralite.repository.CodeTypeRepository;
 import com.seawen.jiralite.repository.search.CodeSearchRepository;
 import com.seawen.jiralite.service.dto.CodeDTO;
 import com.seawen.jiralite.service.mapper.CodeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -30,6 +34,9 @@ public class CodeService {
 
     private final CodeSearchRepository codeSearchRepository;
 
+    @Autowired
+    private CodeTypeRepository codeTypeRepository;
+
     public CodeService(CodeRepository codeRepository, CodeMapper codeMapper, CodeSearchRepository codeSearchRepository) {
         this.codeRepository = codeRepository;
         this.codeMapper = codeMapper;
@@ -45,6 +52,7 @@ public class CodeService {
     public CodeDTO save(CodeDTO codeDTO) {
         log.debug("Request to save Code : {}", codeDTO);
         Code code = codeMapper.toEntity(codeDTO);
+        code.setCodeType(codeTypeRepository.findOne(codeDTO.getCodeTypeId()));
         code = codeRepository.save(code);
         CodeDTO result = codeMapper.toDto(code);
         codeSearchRepository.save(code);
@@ -62,6 +70,32 @@ public class CodeService {
         log.debug("Request to get all Codes");
         return codeRepository.findAll(pageable)
             .map(codeMapper::toDto);
+    }
+
+    /**
+     * Get all the codes by typeCode and Code.
+     *
+     * @param typeCode
+     * @param code
+     * @param pageable
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Page<CodeDTO> findAllByTypeCodeAndCode(String typeCode, String code, Pageable pageable) {
+        log.debug("Request to get all Codes");
+        if (!StringUtils.isEmpty(typeCode) && !StringUtils.isEmpty(code)) {
+//            CodeType codeType = this.codeTypeRepository.findByTypeCode(typeCode);
+            return codeRepository.findByCodeTypeTypeCodeAndCodeLike(typeCode, code + "%", pageable)
+                .map(codeMapper::toDto);
+        } else if (StringUtils.isEmpty(typeCode) && !StringUtils.isEmpty(code)) {
+
+            return codeRepository.findByCodeLike(code, pageable).map(codeMapper::toDto);
+        } else if (!StringUtils.isEmpty(typeCode) && StringUtils.isEmpty(code)) {
+//            CodeType codeType = this.codeTypeRepository.findByTypeCode(typeCode);
+            return codeRepository.findByCodeTypeTypeCode(typeCode, pageable).map(codeMapper::toDto);
+        } else {
+            return codeRepository.findAll(pageable).map(codeMapper::toDto);
+        }
     }
 
     /**

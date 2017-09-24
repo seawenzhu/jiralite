@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { BaseRequestOptions, URLSearchParams, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { SERVER_API_URL } from '../../app.constants';
 
@@ -44,6 +44,14 @@ export class CodeService {
 
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
+        if (req) {
+            if (req.code) {
+                options.params.set("code", req.code);
+            }
+            if (req.typeCode) {
+                options.params.set("typeCode", req.typeCode);
+            }
+        }
         return this.http.get(this.resourceUrl, options)
             .map((res: Response) => this.convertResponse(res));
     }

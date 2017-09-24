@@ -96,7 +96,7 @@ export class CommentsCreateComponent implements OnInit {
         console.log(value);
 
         this.isSaving = true;
-        if (value.id !== undefined) {
+        if (value.id) {
             value.version = this.comment.version;
             this.subscribeToSaveResponse(
                 this.commentsService.update(value));

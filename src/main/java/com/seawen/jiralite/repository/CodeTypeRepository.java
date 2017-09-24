@@ -13,4 +13,5 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface CodeTypeRepository extends JpaRepository<CodeType, Long> {
 
+    CodeType findByTypeCode(String typeCode);
 }

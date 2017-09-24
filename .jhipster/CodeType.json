@@ -50,7 +50,6 @@
             "fieldName": "parentTypeCode",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
                 "maxlength"
             ],
             "fieldValidateRulesMaxlength": 30

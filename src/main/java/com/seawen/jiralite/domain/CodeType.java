@@ -50,7 +50,7 @@ public class CodeType extends AbstractAuditingEntity implements Serializable {
     @Column(name = "type_code", length = 30, nullable = false)
     private String typeCode;
 
-    @NotNull
+//    @NotNull
     @Size(max = 30)
     @Column(name = "parent_type_code", length = 30)
     private String parentTypeCode;
