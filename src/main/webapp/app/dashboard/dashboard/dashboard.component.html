@@ -27,7 +27,7 @@
     <br/>
 
     <div class="table-responsive">
-        <nz-card [nzLoading]="!issues">
+            <nz-card [nzLoading]="!issues">
 
             <ng-template #body>
                 <table class="table table-striped">
@@ -95,4 +95,11 @@
             </ng-template>
         </nz-card>
     </div>
+
+    <nz-spin *ngIf="isLoading" [nzTip]="'正在读取数据...'" [nzSpinning]="isLoading">
+        <div nz-row style="padding-bottom: 60px;" >
+            <div nz-col [nzSpan]="24"></div>
+        </div>
+    </nz-spin>
+
 </div>

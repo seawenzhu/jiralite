@@ -84,14 +84,14 @@ public class CodeService {
     public Page<CodeDTO> findAllByTypeCodeAndCode(String typeCode, String code, Pageable pageable) {
         log.debug("Request to get all Codes");
         if (!StringUtils.isEmpty(typeCode) && !StringUtils.isEmpty(code)) {
-//            CodeType codeType = this.codeTypeRepository.findByTypeCode(typeCode);
+
             return codeRepository.findByCodeTypeTypeCodeAndCodeLike(typeCode, code + "%", pageable)
                 .map(codeMapper::toDto);
         } else if (StringUtils.isEmpty(typeCode) && !StringUtils.isEmpty(code)) {
 
             return codeRepository.findByCodeLike(code, pageable).map(codeMapper::toDto);
         } else if (!StringUtils.isEmpty(typeCode) && StringUtils.isEmpty(code)) {
-//            CodeType codeType = this.codeTypeRepository.findByTypeCode(typeCode);
+
             return codeRepository.findByCodeTypeTypeCode(typeCode, pageable).map(codeMapper::toDto);
         } else {
             return codeRepository.findAll(pageable).map(codeMapper::toDto);

@@ -1,6 +1,7 @@
 <div infinite-scroll (scrolled)="loadPage(page + 1)"
      [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-    <div *ngFor="let comments of comments ;trackBy: trackId"
+
+        <div *ngFor="let comments of comments ;trackBy: trackId"
          nz-row [nzGutter]="8" class="gutter-row" >
         <div *ngIf="!currentEditComments ||  currentEditComments.id != comments.id" class="">
             <div nz-col [nzSpan]="3">
@@ -28,5 +29,11 @@
                                 [comment]="currentEditComments"></jl-comments-create>
         </div>
     </div>
+
 </div>
+<nz-spin *ngIf="isLoading" [nzTip]="'正在读取数据...'" [nzSpinning]="isLoading">
+   <div nz-row style="padding-bottom: 60px;" >
+       <div nz-col [nzSpan]="24"></div>
+   </div>
+</nz-spin>
 

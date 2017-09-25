@@ -36,6 +36,7 @@ export class IssueCommentsComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    isLoading = true;
 
     constructor(
         private commentsService: CommentsService,
@@ -59,6 +60,7 @@ export class IssueCommentsComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        this.isLoading = true;
         if (this.currentSearch) {
             this.commentsService.search({
                 issueId: this.issueId,
@@ -185,6 +187,7 @@ export class IssueCommentsComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess(data, headers) {
+        this.isLoading = false;
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
@@ -193,6 +196,7 @@ export class IssueCommentsComponent implements OnInit, OnDestroy {
     }
 
     private onError(error) {
+        this.isLoading = false;
         this.alertService.error(error.message, null, null);
     }
 }

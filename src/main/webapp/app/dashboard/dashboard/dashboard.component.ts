@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    isLoading = true;
 
     constructor(
         private issueService: IssueService,
@@ -48,6 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        this.isLoading = true;
         if (this.currentSearch) {
             this.issueService.search({
                 query: this.currentSearch,
@@ -143,6 +145,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess(data, headers) {
+        this.isLoading = false;
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
@@ -151,6 +154,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private onError(error) {
+        this.isLoading = false;
         this.alertService.error(error.message, null, null);
     }
 
