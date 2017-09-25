@@ -61,7 +61,7 @@ export class CommentsCreateComponent implements OnInit {
         this.editForm = this.fb.group({
             id: [this.comment && this.comment.id],
             issueId: [this.issueId, [Validators.required]],
-            remark: [this.comment && this.comment.remark, [Validators.required]]
+            remark: [this.comment && this.comment.remark || '', [Validators.required]]
         });
         console.log(this.editForm);
     }
