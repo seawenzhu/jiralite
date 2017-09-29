@@ -54,7 +54,7 @@ public class ProjectMember implements Serializable {
     @ManyToOne
     private Project project;
 
-    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -166,7 +166,7 @@ public class ProjectMember implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
-    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
