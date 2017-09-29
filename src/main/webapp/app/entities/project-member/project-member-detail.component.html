@@ -1,0 +1,55 @@
+
+<div *ngIf="projectMember">
+    <h2><span jhiTranslate="jiraliteApp.projectMember.detail.title">Project Member</span> {{projectMember.id}}</h2>
+    <hr>
+    <jl-alert-error></jl-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jiraliteApp.projectMember.createdBy">Created By</span></dt>
+        <dd>
+            <span>{{projectMember.createdBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.projectMember.createdDate">Created Date</span></dt>
+        <dd>
+            <span>{{projectMember.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.projectMember.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+            <span>{{projectMember.lastModifiedBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.projectMember.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+            <span>{{projectMember.lastModifiedDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.projectMember.version">Version</span></dt>
+        <dd>
+            <span>{{projectMember.version}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.projectMember.name">Name</span></dt>
+        <dd>
+            <span>{{projectMember.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.projectMember.remark">Remark</span></dt>
+        <dd>
+            <span>{{projectMember.remark}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.projectMember.project">Project</span></dt>
+        <dd>
+            <div *ngIf="projectMember.projectId">
+                <a [routerLink]="['/project', projectMember.projectId]">{{projectMember.projectId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'project-member/'+ projectMember.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

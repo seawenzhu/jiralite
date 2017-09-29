@@ -1,0 +1,79 @@
+
+<div *ngIf="issue">
+    <h2><span jhiTranslate="jiraliteApp.issue.detail.title">Issue</span> {{issue.id}}</h2>
+    <hr>
+    <jl-alert-error></jl-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jiraliteApp.issue.createdBy">Created By</span></dt>
+        <dd>
+            <span>{{issue.createdBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.createdDate">Created Date</span></dt>
+        <dd>
+            <span>{{issue.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+            <span>{{issue.lastModifiedBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+            <span>{{issue.lastModifiedDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.version">Version</span></dt>
+        <dd>
+            <span>{{issue.version}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issueNo">Issue No</span></dt>
+        <dd>
+            <span>{{issue.issueNo}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issueSubject">Issue Subject</span></dt>
+        <dd>
+            <span>{{issue.issueSubject}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issueType">Issue Type</span></dt>
+        <dd>
+            <span>{{issue.issueType}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issuePriority">Issue Priority</span></dt>
+        <dd>
+            <span>{{issue.issuePriority}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.issueStatus">Issue Status</span></dt>
+        <dd>
+            <span>{{issue.issueStatus}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.reporter">Reporter</span></dt>
+        <dd>
+            <span>{{issue.reporter}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.assigner">Assigner</span></dt>
+        <dd>
+            <span>{{issue.assigner}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.remark">Remark</span></dt>
+        <dd>
+            <span>{{issue.remark}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.issue.project">Project</span></dt>
+        <dd>
+            <div *ngIf="issue.projectId">
+                <a [routerLink]="['/project', issue.projectId]">{{issue.projectId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'issue/'+ issue.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

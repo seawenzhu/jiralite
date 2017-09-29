@@ -1,0 +1,57 @@
+
+<div *ngIf="codeType">
+    <h2><span jhiTranslate="jiraliteApp.codeType.detail.title">Code Type</span> {{codeType.id}}</h2>
+    <hr>
+    <jl-alert-error></jl-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jiraliteApp.codeType.createdBy">Created By</span></dt>
+        <dd>
+            <span>{{codeType.createdBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.codeType.createdDate">Created Date</span></dt>
+        <dd>
+            <span>{{codeType.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.codeType.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+            <span>{{codeType.lastModifiedBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.codeType.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+            <span>{{codeType.lastModifiedDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.codeType.version">Version</span></dt>
+        <dd>
+            <span>{{codeType.version}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.codeType.typeCode">Type Code</span></dt>
+        <dd>
+            <span>{{codeType.typeCode}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.codeType.parentTypeCode">Parent Type Code</span></dt>
+        <dd>
+            <span>{{codeType.parentTypeCode}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.codeType.typeName">Type Name</span></dt>
+        <dd>
+            <span>{{codeType.typeName}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.codeType.remark">Remark</span></dt>
+        <dd>
+            <span>{{codeType.remark}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'code-type/'+ codeType.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

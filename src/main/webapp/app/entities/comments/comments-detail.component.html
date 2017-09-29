@@ -1,0 +1,51 @@
+
+<div *ngIf="comments">
+    <h2><span jhiTranslate="jiraliteApp.comments.detail.title">Comments</span> {{comments.id}}</h2>
+    <hr>
+    <jl-alert-error></jl-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jiraliteApp.comments.createdBy">Created By</span></dt>
+        <dd>
+            <span>{{comments.createdBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.comments.createdDate">Created Date</span></dt>
+        <dd>
+            <span>{{comments.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.comments.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+            <span>{{comments.lastModifiedBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.comments.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+            <span>{{comments.lastModifiedDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.comments.version">Version</span></dt>
+        <dd>
+            <span>{{comments.version}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.comments.remark">Remark</span></dt>
+        <dd>
+            <span>{{comments.remark}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.comments.issue">Issue</span></dt>
+        <dd>
+            <div *ngIf="comments.issueId">
+                <a [routerLink]="['/issue', comments.issueId]">{{comments.issueId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'comments/'+ comments.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

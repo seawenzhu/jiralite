@@ -1,0 +1,29 @@
+{
+    "jiraliteApp": {
+        "projectMember" : {
+            "home": {
+                "title": "Project Members",
+                "createLabel": "Create a new Project Member",
+                "createOrEditLabel": "Create or edit a Project Member",
+                "search": "Search for Project Member"
+            },
+            "created": "A new Project Member is created with identifier {{ param }}",
+            "updated": "A Project Member is updated with identifier {{ param }}",
+            "deleted": "A Project Member is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Project Member {{ id }}?"
+            },
+            "detail": {
+                "title": "Project Member"
+            },
+            "createdBy": "Created By",
+            "createdDate": "Created Date",
+            "lastModifiedBy": "Last Modified By",
+            "lastModifiedDate": "Last Modified Date",
+            "version": "Version",
+            "name": "Name",
+            "remark": "Remark",
+            "project": "Project"
+        }
+    }
+}

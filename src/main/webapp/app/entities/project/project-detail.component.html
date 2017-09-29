@@ -1,0 +1,53 @@
+
+<div *ngIf="project">
+    <h2><span jhiTranslate="jiraliteApp.project.detail.title">Project</span> {{project.id}}</h2>
+    <hr>
+    <jl-alert-error></jl-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jiraliteApp.project.createdBy">Created By</span></dt>
+        <dd>
+            <span>{{project.createdBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.project.createdDate">Created Date</span></dt>
+        <dd>
+            <span>{{project.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.project.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+            <span>{{project.lastModifiedBy}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.project.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+            <span>{{project.lastModifiedDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.project.version">Version</span></dt>
+        <dd>
+            <span>{{project.version}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.project.code">Code</span></dt>
+        <dd>
+            <span>{{project.code}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.project.name">Name</span></dt>
+        <dd>
+            <span>{{project.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="jiraliteApp.project.remark">Remark</span></dt>
+        <dd>
+            <span>{{project.remark}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'project/'+ project.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

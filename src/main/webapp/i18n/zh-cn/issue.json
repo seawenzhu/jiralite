@@ -1,0 +1,36 @@
+{
+    "jiraliteApp": {
+        "issue" : {
+            "home": {
+                "title": "Issues",
+                "createLabel": "Create a new Issue",
+                "createOrEditLabel": "Create or edit a Issue",
+                "search": "Search for Issue"
+            },
+            "created": "A new Issue is created with identifier {{ param }}",
+            "updated": "A Issue is updated with identifier {{ param }}",
+            "deleted": "A Issue is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Issue {{ id }}?"
+            },
+            "detail": {
+                "title": "Issue"
+            },
+            "createdBy": "Created By",
+            "createdDate": "Created Date",
+            "lastModifiedBy": "Last Modified By",
+            "lastModifiedDate": "Last Modified Date",
+            "version": "Version",
+            "issueNo": "Issue No",
+            "issueSubject": "Issue Subject",
+            "issueType": "Issue Type",
+            "issuePriority": "Issue Priority",
+            "issueStatus": "Issue Status",
+            "reporter": "Reporter",
+            "assigner": "Assigner",
+            "remark": "Remark",
+            "comments": "Comments",
+            "project": "Project"
+        }
+    }
+}

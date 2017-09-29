@@ -1,0 +1,173 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myIssueLabel" jhiTranslate="jiraliteApp.issue.home.createOrEditLabel">Create or edit a Issue</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jl-alert-error></jl-alert-error>
+        <div class="form-group" [hidden]="!issue.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="issue.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.createdBy" for="field_createdBy">Created By</label>
+            <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                [(ngModel)]="issue.createdBy" maxlength="60" />
+            <div [hidden]="!(editForm.controls.createdBy?.dirty && editForm.controls.createdBy?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.createdBy?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 60 }">
+                   This field cannot be longer than 60 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.createdDate" for="field_createdDate">Created Date</label>
+            <div class="d-flex">
+                <input id="field_createdDate" type="datetime-local" class="form-control" name="createdDate" [(ngModel)]="issue.createdDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.lastModifiedBy" for="field_lastModifiedBy">Last Modified By</label>
+            <input type="text" class="form-control" name="lastModifiedBy" id="field_lastModifiedBy"
+                [(ngModel)]="issue.lastModifiedBy" maxlength="60" />
+            <div [hidden]="!(editForm.controls.lastModifiedBy?.dirty && editForm.controls.lastModifiedBy?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.lastModifiedBy?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 60 }">
+                   This field cannot be longer than 60 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.lastModifiedDate" for="field_lastModifiedDate">Last Modified Date</label>
+            <div class="d-flex">
+                <input id="field_lastModifiedDate" type="datetime-local" class="form-control" name="lastModifiedDate" [(ngModel)]="issue.lastModifiedDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.version" for="field_version">Version</label>
+            <input type="number" class="form-control" name="version" id="field_version"
+                [(ngModel)]="issue.version"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.issueNo" for="field_issueNo">Issue No</label>
+            <input type="text" class="form-control" name="issueNo" id="field_issueNo"
+                [(ngModel)]="issue.issueNo" required maxlength="30" />
+            <div [hidden]="!(editForm.controls.issueNo?.dirty && editForm.controls.issueNo?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.issueNo?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.issueNo?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 30 }">
+                   This field cannot be longer than 30 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.issueSubject" for="field_issueSubject">Issue Subject</label>
+            <input type="text" class="form-control" name="issueSubject" id="field_issueSubject"
+                [(ngModel)]="issue.issueSubject" maxlength="500" />
+            <div [hidden]="!(editForm.controls.issueSubject?.dirty && editForm.controls.issueSubject?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.issueSubject?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 500 }">
+                   This field cannot be longer than 500 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.issueType" for="field_issueType">Issue Type</label>
+            <input type="text" class="form-control" name="issueType" id="field_issueType"
+                [(ngModel)]="issue.issueType" required maxlength="30" />
+            <div [hidden]="!(editForm.controls.issueType?.dirty && editForm.controls.issueType?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.issueType?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.issueType?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 30 }">
+                   This field cannot be longer than 30 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.issuePriority" for="field_issuePriority">Issue Priority</label>
+            <input type="text" class="form-control" name="issuePriority" id="field_issuePriority"
+                [(ngModel)]="issue.issuePriority" required maxlength="30" />
+            <div [hidden]="!(editForm.controls.issuePriority?.dirty && editForm.controls.issuePriority?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.issuePriority?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.issuePriority?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 30 }">
+                   This field cannot be longer than 30 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.issueStatus" for="field_issueStatus">Issue Status</label>
+            <input type="text" class="form-control" name="issueStatus" id="field_issueStatus"
+                [(ngModel)]="issue.issueStatus" maxlength="12" />
+            <div [hidden]="!(editForm.controls.issueStatus?.dirty && editForm.controls.issueStatus?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.issueStatus?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 12 }">
+                   This field cannot be longer than 12 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.reporter" for="field_reporter">Reporter</label>
+            <input type="text" class="form-control" name="reporter" id="field_reporter"
+                [(ngModel)]="issue.reporter" maxlength="60" />
+            <div [hidden]="!(editForm.controls.reporter?.dirty && editForm.controls.reporter?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.reporter?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 60 }">
+                   This field cannot be longer than 60 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.assigner" for="field_assigner">Assigner</label>
+            <input type="text" class="form-control" name="assigner" id="field_assigner"
+                [(ngModel)]="issue.assigner" maxlength="60" />
+            <div [hidden]="!(editForm.controls.assigner?.dirty && editForm.controls.assigner?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.assigner?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 60 }">
+                   This field cannot be longer than 60 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.remark" for="field_remark">Remark</label>
+            <textarea class="form-control" name="remark" id="field_remark"
+                [(ngModel)]="issue.remark" required ></textarea>
+            <div [hidden]="!(editForm.controls.remark?.dirty && editForm.controls.remark?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.remark?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jiraliteApp.issue.project" for="field_project">Project</label>
+            <select class="form-control" id="field_project" name="project" [(ngModel)]="issue.projectId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="projectOption.id" *ngFor="let projectOption of projects; trackBy: trackProjectById">{{projectOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>
