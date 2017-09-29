@@ -1,0 +1,15 @@
+
+.search-form{
+    position: relative;
+    top: 9px;
+}
+
+/deep/ .ant-card-head-title{
+    overflow: visible !important;
+}
+/deep/ .ant-table-placeholder{
+    display: none;
+}
+/deep/ nz-dropdown{
+    top: 7px;
+}

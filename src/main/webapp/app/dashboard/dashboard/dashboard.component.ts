@@ -7,11 +7,15 @@ import { ActivatedRoute } from "@angular/router";
 import { Principal } from "../../shared/auth/principal.service";
 import { ITEMS_PER_PAGE } from "../../shared/constants/pagination.constants";
 import { ResponseWrapper } from "../../shared/model/response-wrapper.model";
+import { Subject } from "rxjs/Subject";
+import { Observable } from "rxjs/Observable";
+import { Code } from "../../entities/code/code.model";
+import { CodeConstants } from "../../shared/constants/code-constants";
 
 @Component({
   selector: 'jl-dashboard',
   templateUrl: './dashboard.component.html',
-  styles: []
+  styleUrls: ['./dashboard.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
@@ -27,6 +31,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     totalItems: number;
     currentSearch: string;
     isLoading = true;
+
+    searchTerm$ = new Subject<string>();
+    issueStatus = CodeConstants.TypeCode_ISSUE_STATUS;
+    typeStatus = CodeConstants.TypeCode_ISSUE_TYPE;
+    priorityStatus = CodeConstants.TypeCode_ISSUE_PRIORITY;
+    typeCodes: Code[];
+    statusCodes: Code[];
+    priorityCodes: Code[];
+    typeLabel = '类型';
+    statusLabel = '状态';
+    priorityLabel = '优先级';
 
     constructor(
         private issueService: IssueService,
@@ -46,6 +61,67 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.predicate = 'id';
         this.reverse = true;
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
+
+        this.searchTerm$
+            .debounceTime(400)
+            .distinctUntilChanged()
+            .map((term: string) => term.trim())
+            .flatMap((term: string) => this.inputSearch(term))
+            .subscribe(
+                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+                (res: ResponseWrapper) => this.onError(res.json)
+            );
+    }
+
+    private inputSearch(term: string) {
+        this.empty();
+        if (term) {
+            return this.issueService.search({
+                query: term,
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+        } else {
+            return this.issueService.query();
+        }
+
+    }
+
+    receiveStatusCodes(recievedCodes: any[]) {
+        this.statusCodes = recievedCodes;
+    }
+
+    receiveTypeCodes(recievedCodes: any[]) {
+        this.typeCodes = recievedCodes;
+    }
+
+    receivePriorityCodes(recievedCodes: any[]) {
+        this.priorityCodes = recievedCodes;
+    }
+
+    typeChange($event, code: Code) {
+        if (code) {
+            this.typeLabel = code.name;
+        } else {
+            this.typeLabel = '全部';
+        }
+    }
+
+    statusChange($event, code: Code) {
+        if (code) {
+            this.statusLabel = code.name;
+        } else {
+            this.statusLabel = '全部';
+        }
+    }
+
+    priorityChange($event, code: Code) {
+        if (code) {
+            this.priorityLabel = code.name;
+        } else {
+            this.priorityLabel = '全部';
+        }
     }
 
     loadAll() {
@@ -84,6 +160,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     clear() {
+        this.empty();
+        this.loadAll();
+    }
+
+    private empty() {
         this.issues = [];
         this.links = {
             last: 0
@@ -92,7 +173,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.predicate = 'id';
         this.reverse = true;
         this.currentSearch = '';
-        this.loadAll();
     }
 
     search(query) {

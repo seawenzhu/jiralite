@@ -3,13 +3,13 @@
         <span jhiTranslate="jiraliteApp.issue.home.title">Issues</span>
         <button class="btn btn-primary float-right jh-create-entity create-issue" [routerLink]="['issue-create']">
             <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down"  jhiTranslate="jiraliteApp.issue.home.createLabel">
+            <span class="hidden-sm-down" jhiTranslate="jiraliteApp.issue.home.createLabel">
             Create new Issue
             </span>
         </button>
     </h2>
     <jl-alert></jl-alert>
-    <div class="row">
+    <!--<div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
                 <div class="input-group w-100 mt-3">
@@ -23,81 +23,162 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div>-->
     <br/>
 
-    <div class="table-responsive">
-            <nz-card [nzLoading]="!issues">
+    <nz-card [nzLoading]="!issues">
+        <ng-template #title>
+            <form name="searchForm" class="search-form">
+                <div nz-row>
+                    <div nz-col [nzSpan]="6">
+                        <nz-input [nzType]="'search'"
+                                  [nzPlaceHolder]="'Search'"
+                                  (input)="searchTerm$.next($event.target.value)">
 
-            <ng-template #body>
-                <table class="table table-striped">
-                    <thead>
-                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-                        <!--<th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>-->
-                        <!--<th jhiSortBy="createdBy"><span jhiTranslate="jiraliteApp.issue.createdBy">Created By</span> <span class="fa fa-sort"></span></th>-->
-                        <!--<th jhiSortBy="createdDate"><span jhiTranslate="jiraliteApp.issue.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>-->
-                        <!--<th jhiSortBy="lastModifiedBy"><span jhiTranslate="jiraliteApp.issue.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>-->
-                        <!--<th jhiSortBy="lastModifiedDate"><span jhiTranslate="jiraliteApp.issue.lastModifiedDate">Last Modified Date</span> <span class="fa fa-sort"></span></th>-->
-                        <!--<th jhiSortBy="version"><span jhiTranslate="jiraliteApp.issue.version">Version</span> <span class="fa fa-sort"></span></th>-->
-                        <th jhiSortBy="issueNo"><span jhiTranslate="jiraliteApp.issue.issueNo">Issue No</span> <span class="fa fa-sort"></span></th>
-                        <th jhiSortBy="issueSubject"><span jhiTranslate="jiraliteApp.issue.issueSubject">Issue Subject</span> <span class="fa fa-sort"></span></th>
-                        <th jhiSortBy="issueType"><span jhiTranslate="jiraliteApp.issue.issueType">Issue Type</span> <span class="fa fa-sort"></span></th>
-                        <th jhiSortBy="issuePriority"><span jhiTranslate="jiraliteApp.issue.issuePriority">Issue Priority</span> <span class="fa fa-sort"></span></th>
-                        <th jhiSortBy="issueStatus"><span jhiTranslate="jiraliteApp.issue.issueStatus">Issue Status</span> <span class="fa fa-sort"></span></th>
-                        <!--<th jhiSortBy="reporter"><span jhiTranslate="jiraliteApp.issue.reporter">Reporter</span> <span class="fa fa-sort"></span></th>-->
-                        <!--<th jhiSortBy="assigner"><span jhiTranslate="jiraliteApp.issue.assigner">Assigner</span> <span class="fa fa-sort"></span></th>-->
-                        <th jhiSortBy="remark"><span jhiTranslate="jiraliteApp.issue.remark">Remark</span> <span class="fa fa-sort"></span></th>
-                        <!--<th jhiSortBy="projectId"><span jhiTranslate="jiraliteApp.issue.project">Project</span> <span class="fa fa-sort"></span></th>-->
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-                    <tr *ngFor="let issue of issues ;trackBy: trackId">
-                        <!--<td><a [routerLink]="['../issue', issue.id ]">{{issue.id}}</a></td>-->
-                        <!--<td>{{issue.createdBy}}</td>-->
-                        <!--<td>{{issue.createdDate | date:'medium'}}</td>-->
-                        <!--<td>{{issue.lastModifiedBy}}</td>-->
-                        <!--<td>{{issue.lastModifiedDate | date:'medium'}}</td>-->
-                        <!--<td>{{issue.version}}</td>-->
-                        <td>{{issue.issueNo}}</td>
-                        <td>{{issue.issueSubject}}</td>
-                        <td>{{issue.issueType}}</td>
-                        <td>{{issue.issuePriority}}</td>
-                        <td>{{issue.issueStatus}}</td>
-                        <!--<td>{{issue.reporter}}</td>-->
-                        <!--<td>{{issue.assigner}}</td>-->
-                        <td><span [froalaView]="issue.remark"></span></td>
-                        <!--<td>-->
-                        <!--<div *ngIf="issue.projectId">-->
-                        <!--<a [routerLink]="['../project', issue.projectId  ]" >{{issue.projectId}}</a>-->
-                        <!--</div>-->
-                        <!--</td>-->
-                        <td class="text-center">
-                            <div class="btn-group flex-btn-group-container">
-                                <button type="submit"
-                                        [routerLink]="['issue', issue.id ]"
-                                        class="btn btn-info btn-sm">
-                                    <span class="fa fa-eye"></span>
-                                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                                </button>
-                                <button type="submit"
-                                        [routerLink]="[issue.id + '/issue-edit']"
-                                        replaceUrl="true"
-                                        class="btn btn-primary btn-sm">
-                                    <span class="fa fa-pencil"></span>
-                                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </ng-template>
-        </nz-card>
-    </div>
+                        </nz-input>
+
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <jl-code-select [typeCode]="typeStatus" (codes)="receiveTypeCodes($event)">
+                            <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
+                                <a href class="ant-dropdown-link" nz-dropdown>
+                                   {{typeLabel}} <i class="anticon anticon-down"></i>
+                                </a>
+                                <ul nz-menu>
+                                    <li nz-menu-item (click)="typeChange($event)">
+                                        all</li>
+                                    <li nz-menu-item (click)="typeChange($event, code)"
+                                        *ngFor="let code of typeCodes">
+                                        {{code.name}}</li>
+                                </ul>
+                            </nz-dropdown>
+                        </jl-code-select>
+
+                        <jl-code-select [typeCode]="issueStatus" (codes)="receiveIssueCodes($event)">
+                            <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
+                                <a href class="ant-dropdown-link" nz-dropdown>
+                                   {{statusLabel}} <i class="anticon anticon-down"></i>
+                                </a>
+                                <ul nz-menu>
+                                    <li nz-menu-item (click)="statusChange($event)">
+                                        全部</li>
+                                    <li nz-menu-item (click)="statusChange($event, code)"
+                                        *ngFor="let code of statusCodes">
+                                        {{code.name}}</li>
+                                </ul>
+                            </nz-dropdown>
+                        </jl-code-select>
+
+                        <jl-code-select [typeCode]="priorityStatus" (codes)="receivePriorityCodes($event)">
+                            <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
+                                <a href class="ant-dropdown-link" nz-dropdown>
+                                   {{priorityLabel}} <i class="anticon anticon-down"></i>
+                                </a>
+                                <ul nz-menu>
+                                    <li nz-menu-item (click)="priorityChange($event)">
+                                        全部</li>
+                                    <li nz-menu-item (click)="priorityChange($event, code)"
+                                        *ngFor="let code of priorityCodes">
+                                        {{code.name}}</li>
+                                </ul>
+                            </nz-dropdown>
+                        </jl-code-select>
+                    </div>
+
+                </div>
+            </form>
+        </ng-template>
+        <ng-template #body>
+            <nz-table nzCustomNoResult=”true” nzIsPagination="false">
+                <!--<thead nz-thead>-->
+                <!--<tr>-->
+                <!--<th nz-th [nzWidth]="'25%'"><span>name</span></th>-->
+                <!--<th nz-th><span>action</span></th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <tbody nz-tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                <tr nz-tbody-tr *ngFor="let issue of issues ;trackBy: trackId">
+                    <td nz-td>
+                        <div><a [routerLink]="['issue', issue.id ]">{{issue.issueSubject}}</a></div>
+                        <div class="ellipsis">
+                            <span [froalaView]="issue.remark"></span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </nz-table>
+        </ng-template>
+    </nz-card>
+
+    <!-- <div class="table-responsive">
+         <nz-card [nzLoading]="!issues">
+
+             <ng-template #body>
+                 <table class="table table-striped">
+                     <thead>
+                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                             &lt;!&ndash;<th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>&ndash;&gt;
+                             &lt;!&ndash;<th jhiSortBy="createdBy"><span jhiTranslate="jiraliteApp.issue.createdBy">Created By</span> <span class="fa fa-sort"></span></th>&ndash;&gt;
+                             &lt;!&ndash;<th jhiSortBy="createdDate"><span jhiTranslate="jiraliteApp.issue.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>&ndash;&gt;
+                             &lt;!&ndash;<th jhiSortBy="lastModifiedBy"><span jhiTranslate="jiraliteApp.issue.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>&ndash;&gt;
+                             &lt;!&ndash;<th jhiSortBy="lastModifiedDate"><span jhiTranslate="jiraliteApp.issue.lastModifiedDate">Last Modified Date</span> <span class="fa fa-sort"></span></th>&ndash;&gt;
+                             &lt;!&ndash;<th jhiSortBy="version"><span jhiTranslate="jiraliteApp.issue.version">Version</span> <span class="fa fa-sort"></span></th>&ndash;&gt;
+                             <th jhiSortBy="issueNo"><span jhiTranslate="jiraliteApp.issue.issueNo">Issue No</span> <span class="fa fa-sort"></span></th>
+                             <th jhiSortBy="issueSubject"><span jhiTranslate="jiraliteApp.issue.issueSubject">Issue Subject</span> <span class="fa fa-sort"></span></th>
+                             <th jhiSortBy="issueType"><span jhiTranslate="jiraliteApp.issue.issueType">Issue Type</span> <span class="fa fa-sort"></span></th>
+                             <th jhiSortBy="issuePriority"><span jhiTranslate="jiraliteApp.issue.issuePriority">Issue Priority</span> <span class="fa fa-sort"></span></th>
+                             <th jhiSortBy="issueStatus"><span jhiTranslate="jiraliteApp.issue.issueStatus">Issue Status</span> <span class="fa fa-sort"></span></th>
+                             &lt;!&ndash;<th jhiSortBy="reporter"><span jhiTranslate="jiraliteApp.issue.reporter">Reporter</span> <span class="fa fa-sort"></span></th>&ndash;&gt;
+                             &lt;!&ndash;<th jhiSortBy="assigner"><span jhiTranslate="jiraliteApp.issue.assigner">Assigner</span> <span class="fa fa-sort"></span></th>&ndash;&gt;
+                             <th jhiSortBy="remark"><span jhiTranslate="jiraliteApp.issue.remark">Remark</span> <span class="fa fa-sort"></span></th>
+                             &lt;!&ndash;<th jhiSortBy="projectId"><span jhiTranslate="jiraliteApp.issue.project">Project</span> <span class="fa fa-sort"></span></th>&ndash;&gt;
+                             <th></th>
+                         </tr>
+                     </thead>
+                     <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                         <tr *ngFor="let issue of issues ;trackBy: trackId">
+                             &lt;!&ndash;<td><a [routerLink]="['../issue', issue.id ]">{{issue.id}}</a></td>&ndash;&gt;
+                             &lt;!&ndash;<td>{{issue.createdBy}}</td>&ndash;&gt;
+                             &lt;!&ndash;<td>{{issue.createdDate | date:'medium'}}</td>&ndash;&gt;
+                             &lt;!&ndash;<td>{{issue.lastModifiedBy}}</td>&ndash;&gt;
+                             &lt;!&ndash;<td>{{issue.lastModifiedDate | date:'medium'}}</td>&ndash;&gt;
+                             &lt;!&ndash;<td>{{issue.version}}</td>&ndash;&gt;
+                             <td>{{issue.issueNo}}</td>
+                             <td>{{issue.issueSubject}}</td>
+                             <td>{{issue.issueType}}</td>
+                             <td>{{issue.issuePriority}}</td>
+                             <td>{{issue.issueStatus}}</td>
+                             &lt;!&ndash;<td>{{issue.reporter}}</td>&ndash;&gt;
+                             &lt;!&ndash;<td>{{issue.assigner}}</td>&ndash;&gt;
+                             <td><span [froalaView]="issue.remark"></span></td>
+                             &lt;!&ndash;<td>&ndash;&gt;
+                             &lt;!&ndash;<div *ngIf="issue.projectId">&ndash;&gt;
+                             &lt;!&ndash;<a [routerLink]="['../project', issue.projectId  ]" >{{issue.projectId}}</a>&ndash;&gt;
+                             &lt;!&ndash;</div>&ndash;&gt;
+                             &lt;!&ndash;</td>&ndash;&gt;
+                             <td class="text-center">
+                                 <div class="btn-group flex-btn-group-container">
+                                     <button type="submit" [routerLink]="['issue', issue.id ]" class="btn btn-info btn-sm">
+                                     <span class="fa fa-eye"></span>
+                                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                                 </button>
+                                     <button type="submit" [routerLink]="[issue.id + '/issue-edit']" replaceUrl="true" class="btn btn-primary btn-sm">
+                                     <span class="fa fa-pencil"></span>
+                                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                                 </button>
+                                 </div>
+                             </td>
+                         </tr>
+                     </tbody>
+                 </table>
+             </ng-template>
+         </nz-card>
+     </div>-->
 
     <nz-spin *ngIf="isLoading" [nzTip]="'正在读取数据...'" [nzSpinning]="isLoading">
-        <div nz-row style="padding-bottom: 60px;" >
+        <div nz-row style="padding-bottom: 60px;">
             <div nz-col [nzSpan]="24"></div>
         </div>
     </nz-spin>
