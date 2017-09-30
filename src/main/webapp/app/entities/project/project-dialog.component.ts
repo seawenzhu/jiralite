@@ -22,7 +22,7 @@ export class ProjectDialogComponent implements OnInit {
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private projectService: ProjectService,
         private eventManager: JhiEventManager
     ) {
@@ -75,7 +75,7 @@ export class ProjectDialogComponent implements OnInit {
     }
 
     private onError(error: any) {
-        this.alertService.error(error.message, null, null);
+        this.jhiAlertService.error(error.message, null, null);
     }
 }
 

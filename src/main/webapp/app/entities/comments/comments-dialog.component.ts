@@ -26,7 +26,7 @@ export class CommentsDialogComponent implements OnInit {
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private commentsService: CommentsService,
         private issueService: IssueService,
         private eventManager: JhiEventManager
@@ -82,7 +82,7 @@ export class CommentsDialogComponent implements OnInit {
     }
 
     private onError(error: any) {
-        this.alertService.error(error.message, null, null);
+        this.jhiAlertService.error(error.message, null, null);
     }
 
     trackIssueById(index: number, item: Issue) {

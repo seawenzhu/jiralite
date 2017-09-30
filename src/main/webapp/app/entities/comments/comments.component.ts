@@ -28,7 +28,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
     constructor(
         private commentsService: CommentsService,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private dataUtils: JhiDataUtils,
         private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
@@ -150,6 +150,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
     }
 
     private onError(error) {
-        this.alertService.error(error.message, null, null);
+        this.jhiAlertService.error(error.message, null, null);
     }
 }

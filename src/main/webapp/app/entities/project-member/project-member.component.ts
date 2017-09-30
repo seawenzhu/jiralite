@@ -33,7 +33,7 @@ currentAccount: any;
     constructor(
         private projectMemberService: ProjectMemberService,
         private parseLinks: JhiParseLinks,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private dataUtils: JhiDataUtils,
@@ -155,6 +155,6 @@ currentAccount: any;
         this.projectMembers = data;
     }
     private onError(error) {
-        this.alertService.error(error.message, null, null);
+        this.jhiAlertService.error(error.message, null, null);
     }
 }

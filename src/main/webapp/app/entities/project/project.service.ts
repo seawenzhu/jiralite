@@ -20,8 +20,7 @@ export class ProjectService {
         const copy = this.convert(project);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
+            return this.convertItemFromServer(jsonResponse);
         });
     }
 
@@ -29,16 +28,14 @@ export class ProjectService {
         const copy = this.convert(project);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
+            return this.convertItemFromServer(jsonResponse);
         });
     }
 
     find(id: number): Observable<Project> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
+            return this.convertItemFromServer(jsonResponse);
         });
     }
 
@@ -60,19 +57,28 @@ export class ProjectService {
 
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
+        const result = [];
         for (let i = 0; i < jsonResponse.length; i++) {
-            this.convertItemFromServer(jsonResponse[i]);
+            result.push(this.convertItemFromServer(jsonResponse[i]));
         }
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
+        return new ResponseWrapper(res.headers, result, res.status);
     }
 
-    private convertItemFromServer(entity: any) {
+    /**
+     * Convert a returned JSON object to Project.
+     */
+    private convertItemFromServer(json: any): Project {
+        const entity: Project = Object.assign(new Project(), json);
         entity.createdDate = this.dateUtils
-            .convertDateTimeFromServer(entity.createdDate);
+            .convertDateTimeFromServer(json.createdDate);
         entity.lastModifiedDate = this.dateUtils
-            .convertDateTimeFromServer(entity.lastModifiedDate);
+            .convertDateTimeFromServer(json.lastModifiedDate);
+        return entity;
     }
 
+    /**
+     * Convert a Project to a JSON which can be sent to the server.
+     */
     private convert(project: Project): Project {
         const copy: Project = Object.assign({}, project);
 
