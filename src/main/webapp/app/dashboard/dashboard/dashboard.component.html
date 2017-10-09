@@ -38,9 +38,9 @@
                         </nz-input>
 
                     </div>
-                    <div nz-col [nzSpan]="8">
+                    <div nz-col [nzSpan]="10">
                     </div>
-                    <div nz-col [nzSpan]="8">
+                    <div nz-col [nzSpan]="2">
                         <jl-code-select [typeCode]="typeStatus" (codes)="receiveTypeCodes($event)">
                             <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
                                 <a href class="ant-dropdown-link" nz-dropdown>
@@ -55,8 +55,10 @@
                                 </ul>
                             </nz-dropdown>
                         </jl-code-select>
+                    </div>
+                    <div nz-col [nzSpan]="2">
 
-                        <jl-code-select [typeCode]="issueStatus" (codes)="receiveIssueCodes($event)">
+                        <jl-code-select [typeCode]="issueStatus" (codes)="receiveStatusCodes($event)">
                             <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
                                 <a href class="ant-dropdown-link" nz-dropdown>
                                    {{statusLabel}} <i class="anticon anticon-down"></i>
@@ -70,7 +72,8 @@
                                 </ul>
                             </nz-dropdown>
                         </jl-code-select>
-
+                    </div>
+                    <div nz-col [nzSpan]="2">
                         <jl-code-select [typeCode]="priorityStatus" (codes)="receivePriorityCodes($event)">
                             <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
                                 <a href class="ant-dropdown-link" nz-dropdown>

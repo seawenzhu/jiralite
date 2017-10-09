@@ -4,12 +4,12 @@
     top: 9px;
 }
 
-/deep/ .ant-card-head-title{
+::ng-deep .ant-card-head-title{
     overflow: visible !important;
 }
-/deep/ .ant-table-placeholder{
+::ng-deep .ant-table-placeholder{
     display: none;
 }
-/deep/ nz-dropdown{
+::ng-deep nz-dropdown{
     top: 7px;
 }
