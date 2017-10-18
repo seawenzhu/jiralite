@@ -2,6 +2,7 @@ package com.seawen.jiralite.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.seawen.jiralite.service.CodeTypeService;
+import com.seawen.jiralite.web.rest.errors.BadRequestAlertException;
 import com.seawen.jiralite.web.rest.util.HeaderUtil;
 import com.seawen.jiralite.web.rest.util.PaginationUtil;
 import com.seawen.jiralite.service.dto.CodeTypeDTO;
@@ -55,7 +56,7 @@ public class CodeTypeResource {
     public ResponseEntity<CodeTypeDTO> createCodeType(@Valid @RequestBody CodeTypeDTO codeTypeDTO) throws URISyntaxException {
         log.debug("REST request to save CodeType : {}", codeTypeDTO);
         if (codeTypeDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new codeType cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new codeType cannot already have an ID", ENTITY_NAME, "idexists");
         }
         CodeTypeDTO result = codeTypeService.save(codeTypeDTO);
         return ResponseEntity.created(new URI("/api/code-types/" + result.getId()))

@@ -2,6 +2,7 @@ package com.seawen.jiralite.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.seawen.jiralite.service.CodeService;
+import com.seawen.jiralite.web.rest.errors.BadRequestAlertException;
 import com.seawen.jiralite.web.rest.util.HeaderUtil;
 import com.seawen.jiralite.web.rest.util.PaginationUtil;
 import com.seawen.jiralite.service.dto.CodeDTO;
@@ -55,7 +56,7 @@ public class CodeResource {
     public ResponseEntity<CodeDTO> createCode(@Valid @RequestBody CodeDTO codeDTO) throws URISyntaxException {
         log.debug("REST request to save Code : {}", codeDTO);
         if (codeDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new code cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new code cannot already have an ID", ENTITY_NAME, "idexists");
         }
         CodeDTO result = codeService.save(codeDTO);
         return ResponseEntity.created(new URI("/api/codes/" + result.getId()))

@@ -3,15 +3,15 @@
         "code" : {
             "home": {
                 "title": "Codes",
-                "createLabel": "Create a new Code",
-                "createOrEditLabel": "Create or edit a Code",
-                "search": "Search for Code"
+                "createLabel": "创建新 Code",
+                "createOrEditLabel": "创建或编辑 Code",
+                "search": "查找 Code"
             },
-            "created": "A new Code is created with identifier {{ param }}",
-            "updated": "A Code is updated with identifier {{ param }}",
-            "deleted": "A Code is deleted with identifier {{ param }}",
+            "created": "Code {{ param }} 创建成功",
+            "updated": "Code {{ param }} 更新成功",
+            "deleted": "Code {{ param }} 删除成功",
             "delete": {
-                "question": "Are you sure you want to delete Code {{ id }}?"
+                "question": "你确定要删除 Code {{ id }} 吗？"
             },
             "detail": {
                 "title": "Code"
