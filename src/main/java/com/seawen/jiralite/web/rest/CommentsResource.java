@@ -2,6 +2,7 @@ package com.seawen.jiralite.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.seawen.jiralite.service.CommentsService;
+import com.seawen.jiralite.web.rest.errors.BadRequestAlertException;
 import com.seawen.jiralite.web.rest.util.HeaderUtil;
 import com.seawen.jiralite.web.rest.util.PaginationUtil;
 import com.seawen.jiralite.service.dto.CommentsDTO;
@@ -55,7 +56,7 @@ public class CommentsResource {
     public ResponseEntity<CommentsDTO> createComments(@Valid @RequestBody CommentsDTO commentsDTO) throws URISyntaxException {
         log.debug("REST request to save Comments : {}", commentsDTO);
         if (commentsDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new comments cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new comments cannot already have an ID", ENTITY_NAME, "idexists");
         }
         CommentsDTO result = commentsService.save(commentsDTO);
         return ResponseEntity.created(new URI("/api/comments/" + result.getId()))

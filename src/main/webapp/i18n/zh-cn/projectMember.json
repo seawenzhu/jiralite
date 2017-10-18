@@ -3,15 +3,15 @@
         "projectMember" : {
             "home": {
                 "title": "Project Members",
-                "createLabel": "Create a new Project Member",
-                "createOrEditLabel": "Create or edit a Project Member",
-                "search": "Search for Project Member"
+                "createLabel": "创建新 Project Member",
+                "createOrEditLabel": "创建或编辑 Project Member",
+                "search": "查找 Project Member"
             },
-            "created": "A new Project Member is created with identifier {{ param }}",
-            "updated": "A Project Member is updated with identifier {{ param }}",
-            "deleted": "A Project Member is deleted with identifier {{ param }}",
+            "created": "Project Member {{ param }} 创建成功",
+            "updated": "Project Member {{ param }} 更新成功",
+            "deleted": "Project Member {{ param }} 删除成功",
             "delete": {
-                "question": "Are you sure you want to delete Project Member {{ id }}?"
+                "question": "你确定要删除 Project Member {{ id }} 吗？"
             },
             "detail": {
                 "title": "Project Member"

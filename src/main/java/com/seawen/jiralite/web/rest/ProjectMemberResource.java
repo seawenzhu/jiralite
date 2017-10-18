@@ -2,6 +2,7 @@ package com.seawen.jiralite.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.seawen.jiralite.service.ProjectMemberService;
+import com.seawen.jiralite.web.rest.errors.BadRequestAlertException;
 import com.seawen.jiralite.web.rest.util.HeaderUtil;
 import com.seawen.jiralite.web.rest.util.PaginationUtil;
 import com.seawen.jiralite.service.dto.ProjectMemberDTO;
@@ -55,7 +56,7 @@ public class ProjectMemberResource {
     public ResponseEntity<ProjectMemberDTO> createProjectMember(@Valid @RequestBody ProjectMemberDTO projectMemberDTO) throws URISyntaxException {
         log.debug("REST request to save ProjectMember : {}", projectMemberDTO);
         if (projectMemberDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new projectMember cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new projectMember cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ProjectMemberDTO result = projectMemberService.save(projectMemberDTO);
         return ResponseEntity.created(new URI("/api/project-members/" + result.getId()))

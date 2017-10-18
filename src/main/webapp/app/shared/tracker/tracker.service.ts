@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Observable, Observer, Subscription } from 'rxjs/Rx';
 
@@ -24,6 +24,7 @@ export class JlTrackerService {
         private router: Router,
         private authServerProvider: AuthServerProvider,
         private $window: WindowRef,
+        // tslint:disable-next-line: no-unused-variable
         private csrfService: CSRFService
     ) {
         this.connection = this.createConnection();

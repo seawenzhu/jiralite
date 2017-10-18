@@ -3,15 +3,15 @@
         "comments" : {
             "home": {
                 "title": "Comments",
-                "createLabel": "Create a new Comments",
-                "createOrEditLabel": "Create or edit a Comments",
-                "search": "Search for Comments"
+                "createLabel": "创建新 Comments",
+                "createOrEditLabel": "创建或编辑 Comments",
+                "search": "查找 Comments"
             },
-            "created": "A new Comments is created with identifier {{ param }}",
-            "updated": "A Comments is updated with identifier {{ param }}",
-            "deleted": "A Comments is deleted with identifier {{ param }}",
+            "created": "Comments {{ param }} 创建成功",
+            "updated": "Comments {{ param }} 更新成功",
+            "deleted": "Comments {{ param }} 删除成功",
             "delete": {
-                "question": "Are you sure you want to delete Comments {{ id }}?"
+                "question": "你确定要删除 Comments {{ id }} 吗？"
             },
             "detail": {
                 "title": "Comments"

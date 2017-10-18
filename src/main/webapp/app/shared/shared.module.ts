@@ -11,10 +11,10 @@ import {
     StateStorageService,
     LoginService,
     LoginModalService,
+    JlLoginModalComponent,
     Principal,
     JlTrackerService,
     HasAnyAuthorityDirective,
-    JlLoginModalComponent
 } from './';
 import { FroalaEditorModule, FroalaViewModule } from "angular-froala-wysiwyg";
 

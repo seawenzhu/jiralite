@@ -9,10 +9,13 @@ import org.mapstruct.*;
  * Mapper for the entity CodeType and its DTO CodeTypeDTO.
  */
 @Mapper(componentModel = "spring", uses = {})
-public interface CodeTypeMapper extends EntityMapper <CodeTypeDTO, CodeType> {
+public interface CodeTypeMapper extends EntityMapper<CodeTypeDTO, CodeType> {
+
     
+
     @Mapping(target = "codes", ignore = true)
-    CodeType toEntity(CodeTypeDTO codeTypeDTO); 
+    CodeType toEntity(CodeTypeDTO codeTypeDTO);
+
     default CodeType fromId(Long id) {
         if (id == null) {
             return null;
