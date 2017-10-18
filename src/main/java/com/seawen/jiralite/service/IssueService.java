@@ -5,12 +5,14 @@ import com.seawen.jiralite.repository.IssueRepository;
 import com.seawen.jiralite.repository.search.IssueSearchRepository;
 import com.seawen.jiralite.service.dto.IssueDTO;
 import com.seawen.jiralite.service.mapper.IssueMapper;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -96,9 +98,26 @@ public class IssueService {
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
-    public Page<IssueDTO> search(String query, Pageable pageable) {
+    public Page<IssueDTO> search(String query,
+                                 String typeCode,
+                                 String statusCode,
+                                 String priorityCode, Pageable pageable) {
         log.debug("Request to search for a page of Issues for query {}", query);
-        Page<Issue> result = issueSearchRepository.search(queryStringQuery(query), pageable);
+        final BoolQueryBuilder qb = new BoolQueryBuilder();
+        if (!StringUtils.isEmpty(typeCode)) {
+            qb.must(termQuery("issueType", typeCode));
+        }
+        if (!StringUtils.isEmpty(statusCode)) {
+            qb.must(termQuery("issueStatus", statusCode));
+        }
+        if (!StringUtils.isEmpty(priorityCode)) {
+            qb.must(termQuery("issuePriority", priorityCode));
+        }
+        if (!StringUtils.isEmpty(query)) {
+            qb.must(queryStringQuery(query));
+        }
+
+        Page<Issue> result = issueSearchRepository.search(qb, pageable);
         return result.map(issueMapper::toDto);
     }
 }

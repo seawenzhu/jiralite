@@ -139,9 +139,13 @@ public class IssueResource {
      */
     @GetMapping("/_search/issues")
     @Timed
-    public ResponseEntity<List<IssueDTO>> searchIssues(@RequestParam String query, @ApiParam Pageable pageable) {
+    public ResponseEntity<List<IssueDTO>> searchIssues(@RequestParam (required = false) String query,
+                                                       @RequestParam (required = false) String typeCode,
+                                                       @RequestParam (required = false) String statusCode,
+                                                       @RequestParam (required = false) String priorityCode,
+                                                       @ApiParam Pageable pageable) {
         log.debug("REST request to search for a page of Issues for query {}", query);
-        Page<IssueDTO> page = issueService.search(query, pageable);
+        Page<IssueDTO> page = issueService.search(query, typeCode, statusCode, priorityCode, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/issues");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

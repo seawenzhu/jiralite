@@ -1,5 +1,6 @@
 package com.seawen.jiralite.web.rest.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -47,9 +48,11 @@ public final class PaginationUtil {
     }
 
     public static HttpHeaders generateSearchPaginationHttpHeaders(String query, Page page, String baseUrl) {
-        String escapedQuery;
+        String escapedQuery = "";
         try {
-            escapedQuery = URLEncoder.encode(query, "UTF-8");
+            if (StringUtils.isNotEmpty(query)) {
+                escapedQuery = URLEncoder.encode(query, "UTF-8");
+            }
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

@@ -32,6 +32,8 @@
                 <div nz-row>
                     <div nz-col [nzSpan]="6">
                         <nz-input [nzType]="'search'"
+                                  name="searchValue"
+                                  [(ngModel)]="searchValue"
                                   [nzPlaceHolder]="'Search'"
                                   (input)="searchTerm$.next($event.target.value)">
 

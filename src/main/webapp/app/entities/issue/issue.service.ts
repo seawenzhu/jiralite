@@ -51,6 +51,15 @@ export class IssueService {
 
     search(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
+        if (req.typeCode) {
+            options.params.set('typeCode', req.typeCode)
+        }
+        if (req.statusCode) {
+            options.params.set('statusCode', req.statusCode)
+        }
+        if (req.priorityCode) {
+            options.params.set('priorityCode', req.priorityCode)
+        }
         return this.http.get(this.resourceSearchUrl, options)
             .map((res: any) => this.convertResponse(res));
     }

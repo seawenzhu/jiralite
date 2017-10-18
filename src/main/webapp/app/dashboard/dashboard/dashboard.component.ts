@@ -40,8 +40,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     statusCodes: Code[];
     priorityCodes: Code[];
     typeLabel = '类型';
+    typeCode: string;
     statusLabel = '状态';
+    statusCode: string;
     priorityLabel = '优先级';
+    priorityCode: string;
+    searchValue: string;
 
     constructor(
         private issueService: IssueService,
@@ -75,16 +79,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     private inputSearch(term: string) {
         this.empty();
-        if (term) {
+        // if (term) {
             return this.issueService.search({
                 query: term,
+                typeCode: this.typeCode,
+                statusCode: this.statusCode,
+                priorityCode: this.priorityCode,
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
-        } else {
-            return this.issueService.query();
-        }
+        // } else {
+        //     return this.issueService.query();
+        // }
 
     }
 
@@ -103,25 +110,43 @@ export class DashboardComponent implements OnInit, OnDestroy {
     typeChange($event, code: Code) {
         if (code) {
             this.typeLabel = code.name;
+            this.typeCode = code.code;
         } else {
             this.typeLabel = '全部';
+            this.typeCode = '';
         }
+        this.inputSearch(this.searchValue).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
     }
 
     statusChange($event, code: Code) {
         if (code) {
             this.statusLabel = code.name;
+            this.statusCode = code.code;
         } else {
             this.statusLabel = '全部';
+            this.statusCode = '';
         }
+        this.inputSearch(this.searchValue).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
     }
 
     priorityChange($event, code: Code) {
         if (code) {
             this.priorityLabel = code.name;
+            this.priorityCode = code.code;
         } else {
             this.priorityLabel = '全部';
+            this.priorityCode = '';
         }
+        this.inputSearch(this.searchValue).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
     }
 
     loadAll() {
