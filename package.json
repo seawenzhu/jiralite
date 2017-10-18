@@ -69,7 +69,6 @@
     "merge-jsons-webpack-plugin": "1.0.11",
     "ngc-webpack": "3.2.2",
     "proxy-middleware": "0.15.0",
-    "puppeteer": "0.10.2",
     "rimraf": "2.6.1",
     "sourcemap-istanbul-instrumenter-loader": "0.2.0",
     "string-replace-webpack-plugin": "0.1.3",
