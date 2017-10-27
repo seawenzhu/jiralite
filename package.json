@@ -24,7 +24,7 @@
     "font-awesome": "4.7.0",
     "jquery": "3.2.1",
     "ng-jhipster": "0.2.12",
-    "ng-zorro-antd": "^0.5.4",
+    "ng-zorro-antd": "^0.5.5",
     "ng2-img-cropper": "^0.9.0",
     "ng2-webstorage": "1.8.0",
     "ngx-cookie": "1.0.0",

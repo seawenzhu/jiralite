@@ -2995,9 +2995,9 @@ generate-object-property@^1.1.0:
   dependencies:
     is-property "^1.0.0"
 
-generator-jhipster@4.10.0:
-  version "4.10.0"
-  resolved "http://registry.npm.taobao.org/generator-jhipster/download/generator-jhipster-4.10.0.tgz#9c72172b3005994bbd3a46032c707153067ad695"
+generator-jhipster@4.10.1:
+  version "4.10.1"
+  resolved "http://registry.npm.taobao.org/generator-jhipster/download/generator-jhipster-4.10.1.tgz#fc691c0445899466da26e7c5f5f4e9a86f378d69"
   dependencies:
     chalk "2.1.0"
     cheerio "0.22.0"
